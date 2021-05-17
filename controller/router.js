@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const schema = require('./../model/schema');
+const validater = require('./validate');
 
 
 
@@ -33,7 +34,25 @@ router.post('/login/:idType', (req, res) => {
 })
 
 
-router.get('/classes/:idType/:id', (req, res) => {})
+router.get('/classes/:idType/:id', (req, res) => {
+    if(req.params.idType == 'student'){
+        if(validater.valId(req.params.idType, req.params.id)){
+            res.render('classMenu');
+        }
+        else{
+            res.redirect('/error');
+        }
+    }else if(req.params.id == 'teacher'){
+        if(validater.valId(req.params.idType, req.params.id)){
+            res.render('classMenu');
+        }
+        else{
+            res.redirect('/error');
+        }
+    }else{
+        res.redirect('/error')
+    }
+})
 
 router.get('/classroom/:idType/:id/:classId/:where', (req, res) => {})
 
