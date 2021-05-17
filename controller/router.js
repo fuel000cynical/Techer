@@ -1,14 +1,36 @@
-express = require('express');
-router = express.Router();
+const express = require('express');
+const router = express.Router();
+const schema = require('./../model/schema');
 
 
 
-router.get('/login', (req, res) => {})
+router.get('/login', (req, res) => {
+    res.render('login');
+})
 
-router.post('/login/teacher', (req, res) => {})
-
-router.post('/login/student', (req, res) => {})
-
+router.post('/login/:idType', (req, res) => {
+    if(req.params.idType === 'teacher'){
+        schema.teacher.findOne({Username : req.body.username, Password : req.body.password }, 't_Id', function(err, teacher){
+            if(err) return handleError(err);
+            if(teacher !== null){
+                res.redirect(`/classes/${req.params.idType}/${teacher.t_Id}`);
+            }else{
+                res.redirect('/login');
+            }
+        });
+    }else if(req.params.idType === 'student'){
+        schema.student.findOne({Username : req.body.username, Password : req.body.password }, 's_Id', function(err, student){
+            if(err) return handleError(err);
+            if(student !== null){
+                res.redirect(`/classes/${req.params.idType}/${student.s_Id}`);
+            }else{
+                res.redirect('/login');
+            }
+        });
+    }else{
+        res.redirect('/error');
+    }
+})
 
 
 router.get('/classes/:idType/:id', (req, res) => {})
@@ -32,6 +54,11 @@ router.post('/update/:what/:idType/:id/:whatId', (req, res) => {})
 router.get('/delete/:what/:idType/:id/:whatId', (req, res) => {})
 
 router.post('/delete/:what/:idType/:id/:whatId', (req, res) => {})
+
+
+
+router.get('/error', (req, res) => {})
+
 
 
 module.exports = router;
