@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const router = require('./controller/router');
 const mongo = require('mongoose');
 // const variables = require('./variables');
 app.set('view engine', 'ejs');
@@ -16,5 +17,6 @@ function connection(){
 connection();
 
 app.use(express.static('views'));
+app.use(router);
 
 app.listen(8000);
