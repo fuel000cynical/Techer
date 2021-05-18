@@ -5,26 +5,26 @@ const validator = require('./validate');
 const uid = require('uniqid');
 
 
-
 router.get('/login', (req, res) => {
     res.render('login');
 })
 
 router.post('/login/:idType', (req, res) => {
-    let idType = req.params.idType;
-    if (idType === 'teacher') {
+    let idType = String(req.params.idType);
+    if ("teach" === idType) {
         schema.teacher.findOne({
-            Username: req.body.username,
-            Password: req.body.password
+            Username: req.body.Username,
+            Password: req.body.Password
         }, 't_Id', function (err, teacher) {
             if (err) return handleError(err);
             if (teacher !== null) {
+                console.log(`/classes/${idType}/${teacher.t_Id}`);
                 res.redirect(`/classes/${idType}/${teacher.t_Id}`);
             } else {
                 res.redirect('/login');
             }
         });
-    } else if (idType === 'student') {
+    } else if (idType === 'learn') {
         schema.student.findOne({
             Username: req.body.username,
             Password: req.body.password
@@ -37,28 +37,28 @@ router.post('/login/:idType', (req, res) => {
             }
         });
     } else {
-        res.redirect('/error');
+        res.redirect(`/error?msg=${encodeURIComponent('id type used in url not found.')}`);
     }
 })
 
 
 router.get('/classes/:idType/:id', (req, res) => {
-    let idType = req.params.idType;
-    let id = req.params.id;
-    if (idType === 'student') {
+    let idType = String(req.params.idType);
+    let id = String(req.params.id);
+    if (idType === 'learn') {
         if (validator.valId(idType, id)) {
             res.render('classMenu');
         } else {
-            res.redirect('/error');
+            res.redirect(`/error?msg=${encodeURIComponent('Student classes from the given ID not found')}`);
         }
-    } else if (id === 'teacher') {
+    } else if (idType === 'teach') {
         if (validator.valId(idType, id)) {
             res.render('classMenu');
         } else {
-            res.redirect('/error');
+            res.redirect(`/error?msg=${encodeURIComponent('Teacher classes from the given ID not found')}`);
         }
     } else {
-        res.redirect('/error')
+        res.redirect(`/error?msg=${encodeURIComponent('id type used in url not found. Test')}`);
     }
 })
 
@@ -71,7 +71,7 @@ router.get('/add/:what/:idType/:id', (req, res) => {
     let what = req.params.what;
 
     if (idType === 'student') {
-        res.redirect('/error');
+        res.redirect(`/error?msg=${encodeURIComponent('Students can not make accounts')}`);
     } else if (idType === 'teacher') {
         if (validator.valId(idType, id)) {
             if (what === 'class') {
@@ -82,14 +82,14 @@ router.get('/add/:what/:idType/:id', (req, res) => {
                 if (validator.valTeacherAdmin(id)) {
                     res.render('addForm', {type: 'teacher'});
                 } else {
-                    res.redirect('/error');
+                    res.redirect(`/error?msg=${encodeURIComponent('Only admins can make teacher accounts')}`);
                 }
             } else {
-                res.redirect('/error');
+                res.redirect(`/error?msg=${encodeURIComponent('The thing you are trying to add does not exist')}`);
             }
         }
     } else {
-        res.redirect('/error');
+        res.redirect(`/error?msg=${encodeURIComponent('The specified type of ID does not exist')}`);
     }
 })
 
@@ -99,7 +99,7 @@ router.post('/add/:what/:idType/:id', (req, res) => {
     let what = req.params.what;
     let idType = req.params.idType;
     if (idType === 'student') {
-        res.redirect('/error');
+        res.redirect(`/error?msg=${encodeURIComponent('Students can not make accounts')}`);
     } else if (idType === 'teacher') {
         if (validator.valId(idType, id)) {
             if (what === 'class') {
@@ -114,7 +114,7 @@ router.post('/add/:what/:idType/:id', (req, res) => {
                 });
                 data.save().then(res.redirect(`/classes/${idType}/${id}`)).catch(err => {
                     if (err) return handleError(err);
-                    res.redirect('/error')
+                    res.redirect(`/error?msg=${encodeURIComponent('There was an error saving class to database')}`);
                 });
             } else if (what === 'student') {
                 data = new schema.student({
@@ -126,7 +126,7 @@ router.post('/add/:what/:idType/:id', (req, res) => {
                 });
                 data.save().then(res.redirect(`/classes/${idType}/${id}`)).catch(err => {
                     if (err) return handleError(err);
-                    res.redirect('/error')
+                    res.redirect(`/error?msg=${encodeURIComponent('Their was an error saving account to database')}`);
                 });
             } else if (what === 'teacher') {
                 if (validator.valTeacherAdmin(id)) {
@@ -140,18 +140,18 @@ router.post('/add/:what/:idType/:id', (req, res) => {
                     });
                     data.save().then(res.redirect(`/classes/${idType}/${id}`)).catch(err => {
                         if (err) return handleError(err);
-                        res.redirect('/error')
+                        res.redirect(`/error?msg=${encodeURIComponent('There was an error saving account to databse')}`);
                     });
                 }
                 else{
-                    res.redirect('/error');
+                    res.redirect(`/error?msg=${encodeURIComponent('Only admin can make teacher accounts')}`);
                 }
             }else{
-                res.redirect('/error');
+                res.redirect(`/error?msg=${encodeURIComponent('The specified account type you are trying to make does not exist')}`);
             }
         }
     }else{
-        res.redirect('/error');
+        res.redirect(`/error?msg=${encodeURIComponent('The specified account type does not exist')}`);
     }
 })
 
@@ -163,20 +163,20 @@ router.get('/update/:what/:idType/:id/:whatId', (req, res) => {
     let what = req.params.what;
     let whatId = req.params.whatId;
     if (idType === 'student') {
-        res.redirect('/error');
+        res.redirect(`/error?msg=${encodeURIComponent('Students can not change accounts')}`);
     } else if (idType === 'teacher') {
         if (validator.valId(idType, id)) {
             if (what === 'class') {
                 data = validator.validateAndFind('class', whatId);
                 if (data === 'error') {
-                    res.redirect('/error');
+                    res.redirect(`/error?msg=${encodeURIComponent('Their was an error finding a class with the specified id')}`);
                 } else {
                     res.render('updateForm', {type: 'techerClass', dataShow: data});
                 }
             } else if (what === 'student') {
                 data = validator.validateAndFind('student', whatId);
                 if (data === 'error') {
-                    res.redirect('/error');
+                    res.redirect(`/error?msg=${encodeURIComponent('Their was an error finding a student account with the specified id')}`);
                 } else {
                     res.render('updateForm', {type: 'student', dataShow: data});
                 }
@@ -184,25 +184,25 @@ router.get('/update/:what/:idType/:id/:whatId', (req, res) => {
                 if (validator.valTeacherAdmin(id)) {
                     data = validator.validateAndFind('student', whatId);
                     if (data === 'error') {
-                        res.redirect('/error');
+                        res.redirect(`/error?msg=${encodeURIComponent('Their was an error finding a teacher account with the specified id')}`);
                     } else {
                         res.render('updateForm', {type: 'teacher', dataShow: data});
                     }
                 } else {
-                    res.redirect('/error');
+                    res.redirect(`/error?msg=${encodeURIComponent('Only admin can change teacher accounts')}`);
                 }
             } else {
-                res.redirect('/error');
+                res.redirect(`/error?msg=${encodeURIComponent('The specified account type does not exist')}`);
             }
         }
     }else{
-        res.redirect('/error');
+        res.redirect(`/error?msg=${encodeURIComponent('The specified account type does not exist')}`);
     }
 })
 
 router.post('/update/:what/:idType/:id/:whatId', (req, res) => {
     if (idType === 'student') {
-        res.redirect('/error');
+        res.redirect(`/error?msg=${encodeURIComponent('Students can not change accounts')}`);
     } else if (idType === 'teacher') {
         if (validator.valId(idType, id)) {
             if (what === 'class') {
@@ -232,14 +232,14 @@ router.post('/update/:what/:idType/:id/:whatId', (req, res) => {
                         if (err) return handleError(err);
                     })
                 } else {
-                    res.redirect('/error');
+                    res.redirect(`/error?msg=${encodeURIComponent('Only admin can change teacher accounts')}`);
                 }
             } else {
-                res.redirect('/error');
+                res.redirect(`/error?msg=${encodeURIComponent('The specified thing you are trying to change does not exist')}`);
             }
         }
     }else{
-        res.redirect('/error');
+        res.redirect(`/error?msg=${encodeURIComponent('The specified ID type does not exist')}`);
     }
 })
 
@@ -257,7 +257,7 @@ router.post('/delete/:what/:idType/:id/:whatId', (req, res) => {
                 schema.techerClass.findOneAndDelete({c_Id: whatId}, function (err, data) {
                     if (err) return handleError(err);
                     if (!data) {
-                        res.redirect('/error');
+                        res.redirect(`/error?msg=${encodeURIComponent('There was an error while deleting the class')}`);
                     } else {
                         res.redirect(`/classes/${idType}/${id}`)
                     }
@@ -266,7 +266,7 @@ router.post('/delete/:what/:idType/:id/:whatId', (req, res) => {
                 schema.techerClass.findOneAndDelete({s_Id: whatId}, function (err, data) {
                     if (err) return handleError(err);
                     if (!data) {
-                        res.redirect('/error');
+                        res.redirect(`/error?msg=${encodeURIComponent('There was an error while deleting the student account')}`);
                     } else {
                         res.redirect(`/classes/${idType}/${id}`)
                     }
@@ -276,25 +276,28 @@ router.post('/delete/:what/:idType/:id/:whatId', (req, res) => {
                     schema.techerClass.findOneAndDelete({t_Id: whatId}, function (err, data) {
                         if (err) return handleError(err);
                         if (!data) {
-                            res.redirect('/error');
+                            res.redirect(`/error?msg=${encodeURIComponent('There was an error while deleting the teacher account')}`);
                         } else {
                             res.redirect(`/classes/${idType}/${id}`)
                         }
                     })
                 } else {
-                    res.redirect('/error');
+                    res.redirect(`/error?msg=${encodeURIComponent('Only admin can delete teacher accounts')}`);
                 }
             } else {
-                res.redirect('/error');
+                res.redirect(`/error?msg=${encodeURIComponent('The specified object you are trying to delete does not exist')}`);
             }
         }
     } else {
-        res.redirect('/error');
+        res.redirect(`/error?msg=${encodeURIComponent('The specified ID type does not exist')}`);
     }
 })
 
 
-router.get('/error', (req, res) => {})
+router.get('/error', (req, res) => {
+    let errorMsg = req.query.msg;
+    res.render('error', {msg: errorMsg});
+})
 
 
 

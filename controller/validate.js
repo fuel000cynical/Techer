@@ -1,25 +1,24 @@
 const schema = require('./../model/schema');
 
-function valId(idType, id){
-    if(idType === 'teacher'){
-        schema.teacher.findOne({t_Id : id}, 't_Id Name Email', function(err, teacher){
-            if(err) return handleError(err);
-            if(teacher !== null){
-                return true;
-            }else{
-                return false
+function valId(idType, giveId) {
+    let check = false;
+    if (idType === "teach") {
+        schema.teacher.findOne({t_Id: giveId}, 't_Id Name Email', function (err, teacher) {
+            if (err) return handleError(err);
+            if (String(teacher.t_Id) === giveId) {
+                check = true;
             }
         });
-    }else if(idType === 'student'){
-        schema.student.findOne({s_Id : id}, 's_Id Name Email', function(err, student){
-            if(err) return handleError(err);
-            if(student !== null){
-                return true;
-            }else{
-                return false
+    } else if (idType === 'learn') {
+        schema.student.findOne({s_Id: giveId}, 's_Id Name Email', function (err, student) {
+            if (err) return handleError(err);
+            if (student.s_Id === giveId) {
+                check = true;
             }
         });
     }
+    console.log(check);
+    return check
 }
 
 function valTeacherAdmin(id){

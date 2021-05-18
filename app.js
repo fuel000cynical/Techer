@@ -2,8 +2,9 @@ const express = require('express');
 const app = express();
 const router = require('./controller/router');
 const connection = require('./controller/connection');
-// const variables = require('./variables');
+const parser = require('body-parser');
 app.set('view engine', 'ejs');
+app.use(parser.urlencoded({extended: false}));
 
 connection();
 

@@ -1,36 +1,90 @@
 const mongo = require('mongoose');
 
 const studentSchema = new mongo.Schema({
-    s_Id : {},
-    Name : {},
-    Email : {},
-    Username : {},
-    Password : {}  
+    s_Id: {
+        type: String,
+        required: true
+    },
+    Name: {
+        type: String,
+        required: true
+    },
+    Email: {
+        type: String,
+        required: true
+    },
+    Username: {
+        type: String,
+        required: true
+    },
+    Password: {
+        type: String,
+        required: true
+    }
 })
 let student = mongo.model('students', studentSchema);
 
 
 const teacherSchema = new mongo.Schema({
-    t_Id : {},
-    Name : {},
-    Email : {},
-    Username : {},
-    Password: {},
-    Admin : {}
+    t_Id: {
+        type: String,
+        required: true
+    },
+    Name: {
+        type: String,
+        required: true
+    },
+    Email: {
+        type: String,
+        required: true
+    },
+    Username: {
+        type: String,
+        required: true
+    },
+    Password: {
+        type: String,
+        required: true
+    },
+    Admin: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
 })
 let teacher = mongo.model('teachers', teacherSchema);
 
 
 const Class = new mongo.Schema({
-    c_Id : {},
-    Title : {},
-    titleImg : {},
-    createdOn : {},
-    createdBy : {},
-    Teachers : {},
-    Students : {}
+    c_Id: {
+        type: String,
+        required: true
+    },
+    Title: {
+        type: String,
+        required: true
+    },
+    titleImg: {
+        type: Number,
+        required: true
+    },
+    createdOn: {
+        type: Date,
+        required: true
+    },
+    createdBy: {
+        type: String,
+        required: true
+    },
+    Teachers: {
+        type: Array,
+        required: true
+    },
+    Students: {
+        type: Array,
+        required: true
+    }
 })
 let techerClass = mongo.model('classes', Class);
-
 
 module.exports = { student, teacher, techerClass};
