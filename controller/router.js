@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const schema = require('./../model/schema');
-const validater = require('./validate');
+const validator = require('./validate');
 const uid = require('uniqid');
 
 
@@ -36,15 +36,15 @@ router.post('/login/:idType', (req, res) => {
 
 
 router.get('/classes/:idType/:id', (req, res) => {
-    if(req.params.idType == 'student'){
-        if(validater.valId(req.params.idType, req.params.id)){
+    if(req.params.idType === 'student'){
+        if(validator.valId(req.params.idType, req.params.id)){
             res.render('classMenu');
         }
         else{
             res.redirect('/error');
         }
-    }else if(req.params.id == 'teacher'){
-        if(validater.valId(req.params.idType, req.params.id)){
+    }else if(req.params.id === 'teacher'){
+        if(validator.valId(req.params.idType, req.params.id)){
             res.render('classMenu');
         }
         else{
@@ -64,14 +64,14 @@ router.get('/add/:what/:idType/:id', (req, res) => {
         res.redirect('/error');
     }
     else if(req.params.idType === 'teacher'){
-        if(validater.valId(req.params.idType, req.params.id)){
+        if(validator.valId(req.params.idType, req.params.id)){
             if(req.params.what === 'class'){
-                res.render('addForm', {type : techerClass});
+                res.render('addForm', {type : 'techerClass'});
             }else if(req.params.what === 'student'){
-                res.render('addForm', {type : student});
+                res.render('addForm', {type : 'student'});
             }else if(req.params.what === 'teacher'){
-                if(validater.valTeacherAdmin(req.params.id)){
-                    res.render('addForm', {type : teacher});
+                if(validator.valTeacherAdmin(req.params.id)){
+                    res.render('addForm', {type : 'teacher'});
                 }
                 else{
                     res.redirect('/error');
@@ -86,41 +86,42 @@ router.get('/add/:what/:idType/:id', (req, res) => {
 })
 
 router.post('/add/:what/:idType/:id', (req, res) => {
+    let data;
     if(req.params.idType === 'student'){
         res.redirect('/error');
     }
     else if(req.params.idType === 'teacher'){
-        if(validater.valId(req.params.idType, req.params.id)){
+        if(validator.valId(req.params.idType, req.params.id)){
             if(req.params.what === 'class'){
-                var data = new schema.techerClass({
-                    c_Id : uid(),
-                    Title : req.body.title,
-                    titleImg : Math.floor(Math.random() * 9) + 1, 
-                    createdOn : Date.now(),
-                    createdBy : req.params.id,
-                    Teachers : [],
-                    Students : []
-                })
+                data = new schema.techerClass({
+                    c_Id: uid(),
+                    Title: req.body.title,
+                    titleImg: Math.floor(Math.random() * 9) + 1,
+                    createdOn: Date.now(),
+                    createdBy: req.params.id,
+                    Teachers: [],
+                    Students: []
+                });
                 data.save().then(res.redirect(`/classes/${req.params.idType}/${req.params.id}`)).catch(err => {res.redirect('/error')});
             }else if(req.params.what === 'student'){
-                var data = new schema.student({
+                data = new schema.student({
                     s_Id : uid(),
                     Name : req.body.name,
                     Email : req.body.email,
                     Username : req.body.username,
-                    Password : req.body.password  
-                })
+                    Password : req.body.password
+                });
                 data.save().then(res.redirect(`/classes/${req.params.idType}/${req.params.id}`)).catch(err => {res.redirect('/error')});
             }else if(req.params.what === 'teacher'){
-                if(validater.valTeacherAdmin(req.params.id)){
-                    var data = new schema.teacher({
+                if(validator.valTeacherAdmin(req.params.id)){
+                    data = new schema.teacher({
                         t_Id : uid(),
                         Name : req.body.name,
                         Email : req.body.email,
                         Username : req.body.username,
                         Password: req.body.password,
                         Admin : req.body.admin
-                    })
+                    });
                     data.save().then(res.redirect(`/classes/${req.params.idType}/${req.params.id}`)).catch(err => {res.redirect('/error')});
                 }
                 else{
@@ -138,29 +139,30 @@ router.post('/add/:what/:idType/:id', (req, res) => {
 
 
 router.get('/update/:what/:idType/:id/:whatId', (req, res) => {
+    let data;
     if(req.params.idType === 'student'){
         res.redirect('/error');
     }
     else if(req.params.idType === 'teacher'){
-        if(validater.valId(req.params.idType, req.params.id)){
+        if(validator.valId(req.params.idType, req.params.id)){
             if(req.params.what === 'class'){
-                var data = validater.validateAndFind('class', req.params.whatId);
-                if(data == 'error'){
+                data = validator.validateAndFind('class', req.params.whatId);
+                if(data === 'error'){
                     res.redirect('/error');
                 }else{
                     res.render('updateForm', {type : 'techerClass', dataShow : data});
                 }
             }else if(req.params.what === 'student'){
-                var data = validater.validateAndFind('student', req.params.whatId);
-                if(data == 'error'){
+                data = validator.validateAndFind('student', req.params.whatId);
+                if(data === 'error'){
                     res.redirect('/error');
                 }else{
                     res.render('updateForm', {type : 'student', dataShow : data});
                 }
             }else if(req.params.what === 'teacher'){
-                if(validater.valTeacherAdmin(req.params.id)){
-                    var data = validater.validateAndFind('student', req.params.whatId);
-                    if(data == 'error'){
+                if(validator.valTeacherAdmin(req.params.id)){
+                    data = validator.validateAndFind('student', req.params.whatId);
+                    if(data === 'error'){
                         res.redirect('/error');
                     }else{
                         res.render('updateForm', {type : 'teacher', dataShow : data});
@@ -183,7 +185,7 @@ router.post('/update/:what/:idType/:id/:whatId', (req, res) => {
         res.redirect('/error');
     }
     else if(req.params.idType === 'teacher'){
-        if(validater.valId(req.params.idType, req.params.id)){
+        if(validator.valId(req.params.idType, req.params.id)){
             if(req.params.what === 'class'){
                 schema.techerClass.findOneAndUpdate({c_Id : req.params.whatId},{
                     Title : req.body.title
@@ -196,7 +198,7 @@ router.post('/update/:what/:idType/:id/:whatId', (req, res) => {
                     Password : req.body.password  
                 },null, function(err){if(err) return handleError(err);});
 ``            }else if(req.params.what === 'teacher'){
-                if(validater.valTeacherAdmin(req.params.id)){
+                if(validator.valTeacherAdmin(req.params.id)){
                     schema.teacher.findOneAndUpdate({t_Id : req.params.whatId},{
                         Name : req.body.name,
                         Email : req.body.email,
