@@ -18,7 +18,6 @@ router.post('/login/:idType', (req, res) => {
         }, 't_Id', function (err, teacher) {
             if (err) return handleError(err);
             if (teacher !== null) {
-                console.log(`/classes/${idType}/${teacher.t_Id}`);
                 res.redirect(`/classes/${idType}/${teacher.t_Id}`);
             } else {
                 res.redirect('/login');
@@ -42,17 +41,36 @@ router.post('/login/:idType', (req, res) => {
 })
 
 
-router.get('/classes/:idType/:id', (req, res) => {
+router.get('/classes/:idType/:id', async (req, res) => {
     let idType = String(req.params.idType);
     let id = String(req.params.id);
+    let valid = false;
     if (idType === 'learn') {
-        if (validator.valId(idType, id)) {
+        await schema.student.find({s_Id: id}).then(data => {
+            if (data[0] !== id) {
+                valid = false;
+            } else {
+                valid = true;
+            }
+        }).catch(err => {
+            res.redirect(`/error?=${encodeURIComponent(err.message)}`);
+        });
+        if (valid) {
             res.render('classMenu');
         } else {
             res.redirect(`/error?msg=${encodeURIComponent('Student classes from the given ID not found')}`);
         }
     } else if (idType === 'teach') {
-        if (validator.valId(idType, id)) {
+        await schema.teacher.find({t_Id: id}).then(data => {
+            if (data[0].t_Id !== id) {
+                valid = false;
+            } else {
+                valid = true;
+            }
+        }).catch(err => {
+            res.redirect(`/error?=${encodeURIComponent(err.message)}`);
+        });
+        if (valid) {
             res.render('classMenu');
         } else {
             res.redirect(`/error?msg=${encodeURIComponent('Teacher classes from the given ID not found')}`);

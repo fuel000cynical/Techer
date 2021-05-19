@@ -8,7 +8,6 @@ app.use(parser.urlencoded({extended: false}));
 
 connection();
 
-app.use(express.static('views'));
 app.use(router);
 
 app.listen(8000);
