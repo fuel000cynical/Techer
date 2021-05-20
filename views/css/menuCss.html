@@ -38,23 +38,35 @@
         min-height: 400px;
     }
 
-    .classImg{
+    .classImg {
         border: solid 0 black;
         border-top-left-radius: 17px;
         border-top-right-radius: 17px;
         width: inherit;
-        height: 20%;
+        height: 40%;
 
     }
-    .addCard{
+
+    .addCard {
         min-height: 400px;
-        max-height: 400px; 
-        border-radius: 20px; 
+        border-radius: 20px;
+        border: solid 2px;
         padding: 100px 0;
+        width: 30%;
+        margin: 17px;
     }
 
-    .addCard:hover{
-        background-color: #0275d8!important;
+    .addCard:hover {
+        background-color: #0275d8 !important;
         cursor: pointer;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .row > div[class*='col-'] {
+        display: flex;
     }
 </style>

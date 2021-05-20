@@ -11,8 +11,16 @@
         border: none;
     }
 
+    .choiceImg {
+        border: solid 3px #3498db;
+        width: 90%;
+        height: 80%;
+        border-radius: 20%;
+    }
+
     .box {
         width: 900px;
+        height: 80vh;
         padding: 60px;
         position: absolute;
         top: 10%;
@@ -21,11 +29,27 @@
         text-align: center;
         transition: 0.25s;
         margin-top: 100px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+
+    .box input[type = 'radio'] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .box input[type='radio'] + img {
+        cursor: pointer;
+    }
+
+    .box input[type=radio]:checked + img {
+        border: solid 6px #2ecc71;
     }
 
     .box input[type="text"],
     .box input[type="email"] {
-        border: 0;
         background: none;
         display: block;
         margin: 20px auto;
@@ -39,9 +63,20 @@
         transition: 0.25s;
     }
 
-    .box h1 {
+    label {
+        font-size: 20px;
         color: white;
-        text-transform: uppercase;
+    }
+
+    .box input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        border: solid 2px #1565c0;
+        cursor: pointer;
+    }
+
+    .box h1, .box h2 {
+        color: white;
         font-weight: 500;
     }
 

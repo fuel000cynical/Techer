@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const AUDcontroller = require('./AUDcontroller');
+const VIEWcontroller = require('./VIEWcontroller');
 const schema = require('./../model/schema');
 const validator = require('./validate');
 const uid = require('uniqid');
@@ -22,7 +24,6 @@ router.post('/login/:idType', async (req, res) => {
                 res.redirect('/login');
             }
         }).catch(err => {
-            if (err) return handleError(err);
             res.redirect(`/error?msg=${err.msg}`);
         });
     } else if (idType === 'learn') {
@@ -59,14 +60,13 @@ router.get('/classes/:idType/:id', async (req, res) => {
     let valid = false;
     if (idType === 'learn') {
         await schema.student.find({s_Id: id}).then(data => {
-            console.log(data);
             if (data[0].s_Id !== id) {
                 valid = false;
             } else {
                 valid = true;
             }
         }).catch(err => {
-            if (err) return handleError(err);
+            console.log(err);
             res.redirect(`/error?msg=${encodeURIComponent('Can not find student with the specified id')}`);
         });
         if (valid) {
@@ -80,7 +80,7 @@ router.get('/classes/:idType/:id', async (req, res) => {
                     }
                 }
             }
-            res.render('classMenu', {classData: userClasses});
+            res.render('classMenu', {classData: userClasses, instruct: false, userId: id});
         } else {
             res.redirect(`/error?msg=${encodeURIComponent('Student classes from the given ID not found')}`);
         }
@@ -106,7 +106,7 @@ router.get('/classes/:idType/:id', async (req, res) => {
                     }
                 }
             }
-            res.render('classMenu', {classData: userClasses});
+            res.render('classMenu', {classData: userClasses, instruct: true, userId: id});
         } else {
             res.redirect(`/error?msg=${encodeURIComponent('Teacher classes from the given ID not found')}`);
         }
@@ -115,98 +115,12 @@ router.get('/classes/:idType/:id', async (req, res) => {
     }
 })
 
-router.get('/classroom/:idType/:id/:classId/:where', (req, res) => {})
-
-
-router.get('/add/:what/:idType/:id', (req, res) => {
-    let idType = req.params.idType;
-    let id = req.params.id;
-    let what = req.params.what;
-
-    if (idType === 'student') {
-        res.redirect(`/error?msg=${encodeURIComponent('Students can not make accounts')}`);
-    } else if (idType === 'teacher') {
-        if (validator.valId(idType, id)) {
-            if (what === 'class') {
-                res.render('addForm', {type: 'techerClass'});
-            } else if (what === 'student') {
-                res.render('addForm', {type: 'student'});
-            } else if (what === 'teacher') {
-                if (validator.valTeacherAdmin(id)) {
-                    res.render('addForm', {type: 'teacher'});
-                } else {
-                    res.redirect(`/error?msg=${encodeURIComponent('Only admins can make teacher accounts')}`);
-                }
-            } else {
-                res.redirect(`/error?msg=${encodeURIComponent('The thing you are trying to add does not exist')}`);
-            }
-        }
-    } else {
-        res.redirect(`/error?msg=${encodeURIComponent('The specified type of ID does not exist')}`);
-    }
+router.get('/classroom/:idType/:id/:classId/:where', (req, res) => {
 })
 
-router.post('/add/:what/:idType/:id', (req, res) => {
-    let data;
-    let id = req.params.id;
-    let what = req.params.what;
-    let idType = req.params.idType;
-    if (idType === 'student') {
-        res.redirect(`/error?msg=${encodeURIComponent('Students can not make accounts')}`);
-    } else if (idType === 'teacher') {
-        if (validator.valId(idType, id)) {
-            if (what === 'class') {
-                data = new schema.techerClass({
-                    c_Id: uid(),
-                    Title: req.body.title,
-                    titleImg: Math.floor(Math.random() * 9) + 1,
-                    createdOn: Date.now(),
-                    createdBy: id,
-                    Teachers: [],
-                    Students: []
-                });
-                data.save().then(res.redirect(`/classes/${idType}/${id}`)).catch(err => {
-                    if (err) return handleError(err);
-                    res.redirect(`/error?msg=${encodeURIComponent('There was an error saving class to database')}`);
-                });
-            } else if (what === 'student') {
-                data = new schema.student({
-                    s_Id: uid(),
-                    Name: req.body.name,
-                    Email: req.body.email,
-                    Username: req.body.username,
-                    Password: req.body.password
-                });
-                data.save().then(res.redirect(`/classes/${idType}/${id}`)).catch(err => {
-                    if (err) return handleError(err);
-                    res.redirect(`/error?msg=${encodeURIComponent('Their was an error saving account to database')}`);
-                });
-            } else if (what === 'teacher') {
-                if (validator.valTeacherAdmin(id)) {
-                    data = new schema.teacher({
-                        t_Id: uid(),
-                        Name: req.body.name,
-                        Email: req.body.email,
-                        Username: req.body.username,
-                        Password: req.body.password,
-                        Admin: req.body.admin
-                    });
-                    data.save().then(res.redirect(`/classes/${idType}/${id}`)).catch(err => {
-                        if (err) return handleError(err);
-                        res.redirect(`/error?msg=${encodeURIComponent('There was an error saving account to databse')}`);
-                    });
-                }
-                else{
-                    res.redirect(`/error?msg=${encodeURIComponent('Only admin can make teacher accounts')}`);
-                }
-            }else{
-                res.redirect(`/error?msg=${encodeURIComponent('The specified account type you are trying to make does not exist')}`);
-            }
-        }
-    }else{
-        res.redirect(`/error?msg=${encodeURIComponent('The specified account type does not exist')}`);
-    }
-})
+
+router.get('/add/:what/:idType/:id', VIEWcontroller.viewAdd);
+router.post('/add/:what/:idType/:id', AUDcontroller.controllerAdd);
 
 
 router.get('/update/:what/:idType/:id/:whatId', (req, res) => {
