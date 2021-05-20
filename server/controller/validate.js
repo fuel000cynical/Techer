@@ -1,12 +1,5 @@
 const schema = require('./../model/schema');
 
-function valTeacherAdmin(id){
-    schema.teacher.findOne({t_Id : id}, 'admin' ,function(err, result){
-        if(err) return handleError(err);
-        return result.admin;
-    })
-}
-
 function validateAndFind(what, id){
     if(what === 'class'){
         schema.techerClass.findOne({c_Id : id}, 'c_Id Title', function(err, data){
@@ -37,4 +30,4 @@ function validateAndFind(what, id){
         })
     }
 }
-module.exports = {valTeacherAdmin, validateAndFind};
+module.exports = {validateAndFind};

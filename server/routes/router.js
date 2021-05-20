@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const AUDcontroller = require('./AUDcontroller');
-const VIEWcontroller = require('./VIEWcontroller');
-const schema = require('./../model/schema');
-const validator = require('./validate');
+const AUDcontroller = require('./../controller/AUDcontroller');
+const VIEWcontroller = require('./../controller/VIEWcontroller');
+const CLASScontroller = require('./../controller/CLASScontroller');
+const schema = require('../model/schema');
+const validator = require('./../controller/validate');
 const uid = require('uniqid');
 
 
@@ -46,77 +47,9 @@ router.post('/login/:idType', async (req, res) => {
 })
 
 
-router.get('/classes/:idType/:id', async (req, res) => {
-    let idType = String(req.params.idType);
-    let id = String(req.params.id);
-    let allClasses
-    let userClasses = []
-    await schema.techerClass.find().then(data => {
-        allClasses = data
-    }).catch(err => {
-        if (err) return handleError(err);
-        res.redirect(`/error?msg=${encodeURIComponent('There was an error retrieving classes data from database ')}`)
-    });
-    let valid = false;
-    if (idType === 'learn') {
-        await schema.student.find({s_Id: id}).then(data => {
-            if (data[0].s_Id !== id) {
-                valid = false;
-            } else {
-                valid = true;
-            }
-        }).catch(err => {
-            console.log(err);
-            res.redirect(`/error?msg=${encodeURIComponent('Can not find student with the specified id')}`);
-        });
-        if (valid) {
-            if (allClasses !== []) {
-                for (let i = 0; i < allClasses.length; i++) {
-                    let sClasses = allClasses[i].Students;
-                    for (let j = 0; j <= sClasses.length; j++) {
-                        if (sClasses[j] === id) {
-                            userClasses.push(allClasses[i]);
-                        }
-                    }
-                }
-            }
-            res.render('classMenu', {classData: userClasses, instruct: false, userId: id});
-        } else {
-            res.redirect(`/error?msg=${encodeURIComponent('Student classes from the given ID not found')}`);
-        }
-    } else if (idType === 'teach') {
-        await schema.teacher.find({t_Id: id}).then(data => {
-            if (data[0].t_Id !== id) {
-                valid = false;
-            } else {
-                valid = true;
-            }
-        }).catch(err => {
-            if (err) return handleError(err);
-            res.redirect(`/error?msg=${encodeURIComponent('Can not find teacher with the specified id')}`);
-        });
-        if (valid) {
-            if (allClasses !== []) {
-                for (let i = 0; i < allClasses.length; i++) {
-                    let tClasses = allClasses[i].Teachers;
-                    for (let j = 0; j <= tClasses.length; j++) {
-                        if (tClasses[j] === id) {
-                            userClasses.push(allClasses[i]);
-                        }
-                    }
-                }
-            }
-            res.render('classMenu', {classData: userClasses, instruct: true, userId: id});
-        } else {
-            res.redirect(`/error?msg=${encodeURIComponent('Teacher classes from the given ID not found')}`);
-        }
-    } else {
-        res.redirect(`/error?msg=${encodeURIComponent('id type used in url not found. Test')}`);
-    }
-})
-
+router.get('/classes/:idType/:id', CLASScontroller.classMenuView)
 router.get('/classroom/:idType/:id/:classId/:where', (req, res) => {
-})
+});
 
 
 router.get('/add/:what/:idType/:id', VIEWcontroller.viewAdd);
@@ -162,10 +95,10 @@ router.get('/update/:what/:idType/:id/:whatId', (req, res) => {
                 res.redirect(`/error?msg=${encodeURIComponent('The specified account type does not exist')}`);
             }
         }
-    }else{
+    } else {
         res.redirect(`/error?msg=${encodeURIComponent('The specified account type does not exist')}`);
     }
-})
+});
 
 router.post('/update/:what/:idType/:id/:whatId', (req, res) => {
     if (idType === 'student') {
@@ -205,10 +138,10 @@ router.post('/update/:what/:idType/:id/:whatId', (req, res) => {
                 res.redirect(`/error?msg=${encodeURIComponent('The specified thing you are trying to change does not exist')}`);
             }
         }
-    }else{
+    } else {
         res.redirect(`/error?msg=${encodeURIComponent('The specified ID type does not exist')}`);
     }
-})
+});
 
 
 router.post('/delete/:what/:idType/:id/:whatId', (req, res) => {
@@ -258,6 +191,10 @@ router.post('/delete/:what/:idType/:id/:whatId', (req, res) => {
     } else {
         res.redirect(`/error?msg=${encodeURIComponent('The specified ID type does not exist')}`);
     }
-})
+});
 
+router.get('/error', (req, res) => {
+    let message = req.query.msg;
+    res.render('error', {errorMsg: message});
+});
 module.exports = router;
