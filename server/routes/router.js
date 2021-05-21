@@ -10,8 +10,7 @@ const uid = require('uniqid');
 
 router.get('/login', (req, res) => {
     res.render('login');
-})
-
+});
 router.post('/login/:idType', async (req, res) => {
     let idType = String(req.params.idType);
     if ("teach" === idType) {
@@ -44,7 +43,7 @@ router.post('/login/:idType', async (req, res) => {
     } else {
         res.redirect(`/error?msg=${encodeURIComponent('id type used in url not found.')}`);
     }
-})
+});
 
 
 router.get('/classes/:idType/:id', CLASScontroller.classMenuView)
@@ -62,8 +61,11 @@ router.post('/update/:what/:idType/:id/:whatId', AUDcontroller.controllerUpdate)
 
 router.post('/delete/:what/:idType/:id/:whatId', AUDcontroller.controllerDelete);
 
+
 router.get('/error', (req, res) => {
     let message = req.query.msg;
     res.render('error', {errorMsg: message});
 });
+
+
 module.exports = router;
