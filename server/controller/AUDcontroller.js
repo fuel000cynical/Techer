@@ -1,4 +1,5 @@
 const schema = require('./../model/schema');
+const validator = require('./validate');
 const uid = require('uniqid');
 
 exports.controllerAdd = async (req, res) => {
@@ -80,7 +81,97 @@ exports.controllerAdd = async (req, res) => {
 };
 
 exports.controllerUpdate = async (req, res) => {
+    let idType = req.params.idType;
+    let what = req.params.what;
+    let id = req.params.id;
+    let whatId = req.params.whatId;
+    if (idType === 'student') {
+        res.redirect(`/error?msg=${encodeURIComponent('Students can not change accounts')}`);
+    } else if (idType === 'teacher') {
+        if (validator.valId(idType, id)) {
+            if (what === 'class') {
+                schema.techerClass.findOneAndUpdate({c_Id: whatId}, {
+                    Title: req.body.title
+                }, null, function (err) {
+                    console.log(err);
+                })
+            } else if (what === 'student') {
+                schema.student.findOneAndUpdate({s_Id: whatId}, {
+                    Name: req.body.name,
+                    Email: req.body.email,
+                    Username: req.body.username,
+                    Password: req.body.password
+                }, null, function (err) {
+                    console.log(err);
+                });
+            } else if (what === 'teacher') {
+                if (validator.valTeacherAdmin(id)) {
+                    schema.teacher.findOneAndUpdate({t_Id: whatId}, {
+                        Name: req.body.name,
+                        Email: req.body.email,
+                        Username: req.body.username,
+                        Password: req.body.password,
+                        Admin: req.body.admin
+                    }, null, function (err) {
+                        console.log(err);
+                    })
+                } else {
+                    res.redirect(`/error?msg=${encodeURIComponent('Only admin can change teacher accounts')}`);
+                }
+            } else {
+                res.redirect(`/error?msg=${encodeURIComponent('The specified thing you are trying to change does not exist')}`);
+            }
+        }
+    } else {
+        res.redirect(`/error?msg=${encodeURIComponent('The specified ID type does not exist')}`);
+    }
 };
 
 exports.controllerDelete = async (req, res) => {
+    let id = req.params.id;
+    let idType = req.params.idType;
+    let whatId = req.params.whatId;
+    let what = req.params.what;
+    if (idType === 'student') {
+        res.redirect('/error');
+    } else if (idType === 'teacher') {
+        if (validator.valId(idType, id)) {
+            if (what === 'class') {
+                schema.techerClass.findOneAndDelete({c_Id: whatId}, function (err, data) {
+                    console.log(err);
+                    if (!data) {
+                        res.redirect(`/error?msg=${encodeURIComponent('There was an error while deleting the class')}`);
+                    } else {
+                        res.redirect(`/classes/${idType}/${id}`)
+                    }
+                })
+            } else if (what === 'student') {
+                schema.techerClass.findOneAndDelete({s_Id: whatId}, function (err, data) {
+                    console.log(err);
+                    if (!data) {
+                        res.redirect(`/error?msg=${encodeURIComponent('There was an error while deleting the student account')}`);
+                    } else {
+                        res.redirect(`/classes/${idType}/${id}`)
+                    }
+                })
+            } else if (what === 'teacher') {
+                if (validator.valTeacherAdmin(id)) {
+                    schema.techerClass.findOneAndDelete({t_Id: whatId}, function (err, data) {
+                        console.log(err);
+                        if (!data) {
+                            res.redirect(`/error?msg=${encodeURIComponent('There was an error while deleting the teacher account')}`);
+                        } else {
+                            res.redirect(`/classes/${idType}/${id}`)
+                        }
+                    })
+                } else {
+                    res.redirect(`/error?msg=${encodeURIComponent('Only admin can delete teacher accounts')}`);
+                }
+            } else {
+                res.redirect(`/error?msg=${encodeURIComponent('The specified object you are trying to delete does not exist')}`);
+            }
+        }
+    } else {
+        res.redirect(`/error?msg=${encodeURIComponent('The specified ID type does not exist')}`);
+    }
 };

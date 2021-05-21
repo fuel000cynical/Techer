@@ -11,7 +11,9 @@
                         <div class="row">
                             <% classData.forEach(function(user){ %>
                                 <div class="col-md-4">
-                                    <div class="card bg-dark mb-3 text-left text-white classCard">
+                                    <div class="card bg-dark mb-3 text-left text-white classCard"
+                                         style="cursor: pointer;"
+                                         onclick="location.href='<%= `/classroom/${idType}/${userId}/${user.c_Id}/work` %>'">
                                         <img class="class-img-top classImg"
                                         <% if(user.titleImg === 1){ %>
                                              src="https://i.ibb.co/nMYBTzF/classroom-Title1.jpg"

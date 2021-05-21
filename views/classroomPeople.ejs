@@ -1,0 +1,86 @@
+<%- include('partials/_header.ejs') %>
+<%- include('partials/_navBar.ejs') %>
+<%- include('css/classRoomPeopleCss.html') %>
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary pt-0 pb-0">
+    <ul class="nav navbar-nav mr-auto ml-auto mt-0 mb-0">
+        <li class="nav-item">
+            <button class="btn btn-secondary h-2" style="height: 50px; width: 200px; border-radius: 0;"
+                    onclick="location.href='<%= `/classroom/${idType}/${userId}/${classId}/work` %>'">Work
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="btn btn-dark h-2" style="height: 50px; width: 200px; border-radius: 0;"
+                    onclick="location.href='<%= `/classroom/${idType}/${userId}/${classId}/people` %>'">People
+            </button>
+        </li>
+    </ul>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="box">
+                    <h1>People</h1>
+                    <h4 class="text-muted">Click To See People</h4>
+                    <button class="btn btn-outline-light text-left mb-2"
+                            style="width:100%;height: 50px; font-size: 25px;" data-target="#teachersTable"
+                            data-toggle="collapse" aria-expanded="false" aria-controls="teachersTable">Teachers
+                    </button>
+                    <div class="collapse" id="teachersTable">
+                        <table class="table table-striped table-hover table-dark">
+                            <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <% if(adminNav){ %>
+                                    <th scope="col">Action</th>
+                                <% } %>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% teacherDataInClass.forEach(data => { %>
+                                <tr>
+                                    <th scope="row"><%= data.Name %></th>
+                                    <td><%= data.Email %></td>
+                                    <% if(adminNav){ %>
+                                        <td>Action Edit/Delete</td>
+                                    <% } %>
+                                </tr>
+                            <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <button class="btn btn-outline-light text-left mb-2"
+                            style="width:100%;height: 50px; font-size: 25px;" data-target="#studentsTable"
+                            data-toggle="collapse" aria-expanded="false" aria-controls="studentsTable">Students
+                    </button>
+                    <div class="collapse" id="studentsTable">
+                        <table class="table table-striped table-hover table-dark">
+                            <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <% if(instruct){ %>
+                                    <th scope="col">Action</th>
+                                <% } %>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% studentDataInClass.forEach(data => { %>
+                                <tr>
+                                    <th scope="row"><%= data.Name %></th>
+                                    <td><%= data.Email %></td>
+                                    <% if(instruct){ %>
+                                        <td>Action Edit/Delete</td>
+                                    <% } %>
+                                </tr>
+                            <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<%- include('partials/_footer.ejs') %>
