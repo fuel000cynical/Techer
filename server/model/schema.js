@@ -85,6 +85,28 @@ const Class = new mongo.Schema({
         required: true
     }
 })
+
 let techerClass = mongo.model('classes', Class);
 
-module.exports = { student, teacher, techerClass};
+const sessionSchema = new mongo.Schema({
+    sessionId: {
+        type: String,
+        required: true
+    },
+    userType: {
+        type: String,
+        required: true
+    },
+    userId: {
+        type: String,
+        required: true
+    },
+    userName: {
+        type: String,
+        required: true
+    }
+})
+
+let sessionModel = mongo.model('sessionstores', sessionSchema);
+
+module.exports = {sessionModel, student, teacher, techerClass};
