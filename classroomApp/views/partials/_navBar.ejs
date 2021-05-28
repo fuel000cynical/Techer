@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href='/'>
+        <img src="https://i.ibb.co/jD9X3p3/Techer.png" width="60" height="60" alt="Techer Logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="<%= `/classes/${idType}/${userId}` %>">Classes<span
+                            class="sr-only">(current)</span></a>
+            </li>
+            <% if(instruct){ %>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Create
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="<%= `/add/stu/${idType}/${userId}` %>">Create student account</a>
+                        <% if(adminNav){ %>
+                            <a class="dropdown-item" href="<%= `/add/instru/${idType}/${userId}` %>">Create teacher
+                                account</a>
+                        <% } %>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="<%= `/add/class/${idType}/${userId}` %>">Create Class</a>
+                    </div>
+                </li>
+            <% } %>
+        </ul>
+        <% if(instruct){ %>
+            <form class="form-inline my-2 my-lg-0">
+                <script src="/socket.io/socket.io.js"></script>
+                <script src="/js/searchQuery.js"></script>
+                <input class="form-control mr-sm-2" style="min-width: 500px;" type="search"
+                       placeholder="Search for student <% if(adminNav){ %>or teacher <% } %>account" aria-label="Search"
+                       id="searchAllNavBar" onFocus="focusSearch()" onBlur="blurSearch()" onInput="emitSearch()">
+            </form>
+        <% } %>
+        <ul class="navbar-nav">
+            <li class="nav-item mt-2 mb-2 ml-3">
+                <button class="btn btn-outline-danger my-2 my-sm-0">Sign Out</button>
+            </li>
+        </ul>
+    </div>
+</nav>

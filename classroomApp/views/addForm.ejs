@@ -1,0 +1,111 @@
+<%- include('partials/_header.ejs') %>
+<link rel="stylesheet" href="/css/addForm.css">
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <% if(type === 'techerClass'){ %>
+                    <form method="POST" class="box" action='<%= `/add/class/${idType}/${id}` %>'>
+                        <h1>Add Class</h1>
+                        <p class="text-muted"> Please enter the details for the new class</p>
+                        <input type="text" name="classTitle" placeholder="Enter Class Title">
+                        <h2>Choose class title image</h2>
+                        <div class="imgCont row">
+                            <div class="col-md-4">
+                                <label>
+                                    <input type="radio" name="titleImg" value=1>
+                                    <img src="https://i.ibb.co/nMYBTzF/classroom-Title1.jpg" alt="title image choice"
+                                         class="choiceImg">
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <label>
+                                    <input type="radio" name="titleImg" value=2>
+                                    <img src="https://i.ibb.co/8XkLWS2/classroom-Title2.jpg" alt="title image choice"
+                                         class="choiceImg">
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <label>
+                                    <input type="radio" name="titleImg" value=3>
+                                    <img src="https://i.ibb.co/z8nk0ZY/classroom-Title3.jpg" alt="title image choice"
+                                         class="choiceImg">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="imgCont row">
+                            <div class="col-md-4">
+                                <label>
+                                    <input type="radio" name="titleImg" value=4>
+                                    <img src="https://i.ibb.co/pQMqprH/classroom-Title4.jpg" alt="title image choice"
+                                         class="choiceImg">
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <label>
+                                    <input type="radio" name="titleImg" value=5>
+                                    <img src="https://i.ibb.co/CzVDSM2/classroom-Title5.jpg" alt="title image choice"
+                                         class="choiceImg">
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <label>
+                                    <input type="radio" name="titleImg" value=6>
+                                    <img src="https://i.ibb.co/sq1xDPk/classroom-Title6.jpg" alt="title image choice"
+                                         class="choiceImg">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="imgCont row">
+                            <div class="col-md-4">
+                                <label>
+                                    <input type="radio" name="titleImg" value=7>
+                                    <img src="https://i.ibb.co/zWgntdn/classroom-Title7.jpg" alt="title image choice"
+                                         class="choiceImg">
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <label>
+                                    <input type="radio" name="titleImg" value=8>
+                                    <img src="https://i.ibb.co/vqBm1tg/classroom-Title8.jpg" alt="title image choice"
+                                         class="choiceImg">
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <label>
+                                    <input type="radio" name="titleImg" value=9>
+                                    <img src="https://i.ibb.co/pdqFQBZ/classroom-Title9.jpg" alt="title image choice"
+                                         class="choiceImg">
+                                </label>
+                            </div>
+                        </div>
+                        <input type="submit" value="Add Class">
+                    </form>
+                <% } else if(type === 'stu'){ %>
+                    <form class="box" action="<%= `/add/stu/${idType}/${id}` %>" method="POST">
+                        <h1>Add Student</h1>
+                        <p class="text-muted">Please enter the details to make a new student account</p>
+                        <input type="text" name="Name" placeholder="Enter student name">
+                        <input type="email" name="Email" placeholder="Enter student's email">
+                        <input type="text" name="Username" placeholder="Enter student's login username">
+                        <input type="text" name="Password" placeholder="Enter student's login password">
+                        <input type="submit" value="Add Student">
+                    </form>
+                <% } else if(type === 'instru'){ %>
+                    <form class="box" action="<%= `/add/instru/${idType}/${id}` %>" method="POST">
+                        <h1>Add Teacher</h1>
+                        <p class="text-muted">Please enter the details to make a new teacher account</p>
+                        <input type="text" name="Name" placeholder="Enter teacher name">
+                        <input type="email" name="Email" placeholder="Enter teacher's email">
+                        <input type="text" name="Username" placeholder="Enter teacher's login username">
+                        <input type="text" name="Password" placeholder="Enter teacher's login password">
+                        <input type="checkbox" name="Admin" id="adminCheckBox">
+                        <label for="adminCheckBox">Teacher Is Admin</label>
+                        <input type="submit" value="Add Teacher">
+                    </form>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('partials/_footer.ejs') %>

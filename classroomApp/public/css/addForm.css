@@ -1,0 +1,106 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: linear-gradient(to right, #b92b27, #1565c0);
+}
+
+.card {
+    margin-bottom: 20px;
+    border: none;
+}
+
+.choiceImg {
+    border: solid 3px #3498db;
+    width: 90%;
+    height: 80%;
+    border-radius: 20%;
+}
+
+.box {
+    width: 900px;
+    height: 80vh;
+    padding: 60px;
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    background: #343a40;
+    text-align: center;
+    transition: 0.25s;
+    margin-top: 100px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.box input[type = 'radio'] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.box input[type='radio'] + img {
+    cursor: pointer;
+}
+
+.box input[type=radio]:checked + img {
+    border: solid 6px #2ecc71;
+}
+
+.box input[type="text"],
+.box input[type="email"] {
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #3498db;
+    padding: 10px 10px;
+    width: 500px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+}
+
+label {
+    font-size: 20px;
+    color: white;
+}
+
+.box input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    border: solid 2px #1565c0;
+    cursor: pointer;
+}
+
+.box h1, .box h2 {
+    color: white;
+    font-weight: 500;
+}
+
+.box input[type="text"]:focus,
+.box input[type="email"]:focus {
+    width: 600px;
+    border-color: #2ecc71;
+}
+
+.box input[type="submit"] {
+    border: 0;
+    background: none;
+    width: 250px;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #2ecc71;
+    padding: 14px 40px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer;
+}
+
+.box input[type="submit"]:hover {
+    background: #2ecc71;
+}

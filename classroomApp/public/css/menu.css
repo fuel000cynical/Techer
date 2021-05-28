@@ -1,0 +1,71 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: linear-gradient(to left, #1b860d, #fbff00);
+    overflow-x: hidden;
+}
+
+.cont {
+    margin-bottom: 20px;
+    border: none;
+}
+
+.box {
+    width: 1200px;
+    height: 550px;
+    padding: 40px;
+    position: absolute;
+    top: 20%;
+    left: -3%;
+    background: #343a40;
+    text-align: center;
+    transition: 0.25s;
+    margin-top: 100px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.box .mainTitle {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.box .classCard {
+    border: solid 2px #3498db;
+    border-radius: 20px;
+    min-height: 400px;
+}
+
+.box .classImg {
+    border: solid 0 black;
+    border-top-left-radius: 17px;
+    border-top-right-radius: 17px;
+    width: inherit;
+    height: 40%;
+
+}
+
+.box .addCard {
+    min-height: 400px;
+    border-radius: 20px;
+    border: solid 2px;
+    padding: 100px 0;
+    width: 30%;
+    margin: 17px;
+}
+
+.box .addCard:hover {
+    background-color: #0275d8 !important;
+    cursor: pointer;
+}
+
+.box .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.box .row > div[class*='col-'] {
+    display: flex;
+}
