@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../ChatAppCampK12/.idea/ChatAppCampK12.iml" filepath="$PROJECT_DIR$/../ChatAppCampK12/.idea/ChatAppCampK12.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../User Management System/.idea/User Management System.iml" filepath="$PROJECT_DIR$/../User Management System/.idea/User Management System.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../FrontEnd/selfMade/CampK12Assignments/self eCart/.idea/self eCart.iml" filepath="$PROJECT_DIR$/../FrontEnd/selfMade/CampK12Assignments/self eCart/.idea/self eCart.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/techer.iml" filepath="$PROJECT_DIR$/.idea/techer.iml" />
+    </modules>
+  </component>
+</project>

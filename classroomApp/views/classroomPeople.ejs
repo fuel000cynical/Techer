@@ -36,21 +36,11 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">Email</th>
                                     <% if(adminNav){ %>
-                                        <th scope="col"></th>
+                                        <th scope="col">Action</th>
                                     <% } %>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <% teacherDataInClass.forEach(data => { %>
-                                    <tr>
-                                        <th scope="row"><%= data.Name %></th>
-                                        <td><%= data.Email %></td>
-                                        <% if(adminNav){ %>
-                                            <td><a class="btn btn-outline-danger" style="cursor: pointer;"><i
-                                                            class="fa fa-remove"></i></a></td>
-                                        <% } %>
-                                    </tr>
-                                <% }) %>
+                                <tbody id="teachersShowTable">
                                 </tbody>
                             </table>
                         </div>
@@ -65,21 +55,11 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">Email</th>
                                     <% if(instruct){ %>
-                                        <th scope="col"></th>
+                                        <th scope="col">Action</th>
                                     <% } %>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <% studentDataInClass.forEach(data => { %>
-                                    <tr>
-                                        <th scope="row"><%= data.Name %></th>
-                                        <td><%= data.Email %></td>
-                                        <% if(instruct){ %>
-                                            <td><a class="btn btn-outline-danger" style="cursor: pointer;"><i
-                                                            class="fa fa-remove"></i></a></td>
-                                        <% } %>
-                                    </tr>
-                                <% }) %>
+                                <tbody id="studentsShowTable">
                                 </tbody>
                             </table>
                         </div>
@@ -92,4 +72,6 @@
 <% if(instruct){ %>
     <%- include('partials/_blurredSearch.html') %>
 <% } %>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/classPeopleOperations.js"></script>
 <%- include('partials/_footer.ejs') %>

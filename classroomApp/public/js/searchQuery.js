@@ -1,11 +1,5 @@
 const socket = io();
 
-document.addEventListener('onLoad', function (e) {
-    socket.emit('searchQuery', {querySearched: ''});
-    socket.on('searchResult', (result) => {
-        addSearchElements(result);
-    })
-})
 
 async function emitSearch() {
     let searchValue = document.getElementById('searchAllNavBar').value;

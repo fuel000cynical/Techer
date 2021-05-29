@@ -1,0 +1,23 @@
+{
+  "name": "classroomapp",
+  "version": "1.0.0",
+  "description": "An web solution for managing online classes",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodemon app.js"
+  },
+  "author": "Soham Gupta",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.11",
+    "socket.io": "^4.1.2",
+    "uniqid": "^5.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
