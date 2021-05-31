@@ -45,7 +45,9 @@ io.on('connection', (socket) => {
         classRoomPeople.removeFromClass("teacher", data);
     })
     socket.on('searchAddPeople', (data) => {
-      classRoomPeople.addPeopleToClassSearch(data);
+      classRoomPeople.addPeopleToClassSearch(data).then(dataFound => {
+          socket.emit('searchAddPeopleResult', {searchedResult : dataFound});
+      })
     })
 })
 

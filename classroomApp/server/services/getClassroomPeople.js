@@ -12,7 +12,7 @@ async function allDataGiver(data) {
                 check = d[0].Admin;
             }
         }).catch(err => {
-            console.log('error');
+            console.log(err);
             check = false;
         })
     } else if (data.userType === 'learn') {
@@ -80,56 +80,49 @@ async function removeFromClass(type, data){
   })
 }
 
+let searchResultTeachers, searchResultStudents;
 async function addPeopleToClassSearch(query){
   let searchKeyword = String(query.searchQuery).toLowerCase();
   let classId = String(query.classId);
-  console.log(searchKeyword);
-  console.log(classId);
-  let searchResultTeachers = [];
-  let searchResultStudents = [];
-  schema.techerClass.find({c_Id : classId}).then(classData => {
-    schema.teacher.find().then(data => {
+  searchResultTeachers = [];
+  searchResultStudents = [];
+  await schema.techerClass.find({c_Id : classId}).then(async classData => {
+    await schema.teacher.find().then(data => {
       data.forEach(teacher => {
         if(!(classData[0].Teachers.includes(teacher.t_Id))){
           if(teacher.Name.toLowerCase().includes(searchKeyword) || teacher.Email.toLowerCase().includes(searchKeyword) || teacher.Username.toLowerCase().includes(searchKeyword)){
-            console.log('T');
             searchResultTeachers.push({
               t_Id : teacher.t_Id,
               Name : teacher.Name,
               Email : teacher.Email,
               Username : teacher.Username
-            });
+            })
           }
         }
       })
     }).catch(err => {
       console.log(err);
-    });
+    })
 
-    schema.student.find().then(data => {
+    await schema.student.find().then(data => {
       data.forEach(student => {
         if(!(classData[0].Students.includes(student.s_Id))){
           if(student.Name.toLowerCase().includes(searchKeyword) || student.Email.toLowerCase().includes(searchKeyword) || student.Username.toLowerCase().includes(searchKeyword)){
-            console.log("S");
             searchResultStudents.push({
               s_Id : student.s_Id,
               Name : student.Name,
               Email : student.Email,
               Username : student.Username
-            });
+            })
           }
         }
       })
     }).catch(err => {
       console.log(err);
-    });
+    })
   }).catch(err => {
     console.log(err);
   });
-  console.log({
-    teachersToBeAdded : searchResultTeachers,
-    studentsToBeAdded : searchResultStudents
-  })
   return({
     teachersToBeAdded : searchResultTeachers,
     studentsToBeAdded : searchResultStudents
