@@ -41,11 +41,11 @@ exports.viewUpdate = async (req, res) => {
         if (req.validated) {
             if (what === 'class') {
                 if (req.foundWhat) {
+                    console.log(req.whatData);
                     res.render('updateForm', {type: 'techerClass', dataShow: req.whatData});
                 }
             } else if (what === 'stu') {
                 if (req.foundWhat) {
-                    console.log(req.whatData);
                     res.render('updateForm', {type: 'stu', dataShow: req.whatData[0]});
                 }
             } else if (what === 'instru') {

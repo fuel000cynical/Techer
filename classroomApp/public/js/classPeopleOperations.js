@@ -15,12 +15,12 @@ function startData() {
 startData();
 
 function removeStudent(studentId) {
-    socketIo.emit('removeStudent', {studentId: String(studentId), classId});
+    socketIo.emit('removeStudent', {idGiven: String(studentId), classId});
     socketIo.emit('getAllData', {classId, userType, userId});
 }
 
 function removeTeacher(teacherId) {
-    socketIo.emit('removeTeacher', {teacherId, classId});
+    socketIo.emit('removeTeacher', {idGiven: String(teacherId), classId});
     socketIo.emit('getAllData', {classId, userType, userId});
 }
 
@@ -60,6 +60,12 @@ socketIo.on('sendAllData', (data) => {
         }
         classStudentsBox.appendChild(tableRowStudents);
     })
+    const addStudentToClassBtn = document.createElement("button");
+    addStudentToClassBtn.classList.add('btn');
+    addStudentToClassBtn.classList.add('btn-success');
+    addStudentToClassBtn.style.width = "100%";
+    addStudentToClassBtn.innerHTML = "Add Student To Class";
+    document.getElementById('studentsTable').appendChild(addStudentToClassBtn);
     data.teachers.forEach(dataGot => {
         const tableRowTeachers = document.createElement('tr');
         const tableDataTeachers0 = document.createElement('td');
@@ -84,4 +90,10 @@ socketIo.on('sendAllData', (data) => {
         }
         classTeachersBox.appendChild(tableRowTeachers);
     })
+    const addTeacherToClassBtn = document.createElement("button");
+    addTeacherToClassBtn.classList.add('btn');
+    addTeacherToClassBtn.classList.add('btn-success');
+    addTeacherToClassBtn.style.width = "100%";
+    addTeacherToClassBtn.innerHTML = "Add Teacher To Class";
+    document.getElementById('teachersTable').appendChild(addTeacherToClassBtn);
 })

@@ -6,28 +6,28 @@
             <div class="card">
                 <% if(type === 'techerClass'){ %>
                     <form method="POST" class="box">
-                        <h1>Add Class</h1>
-                        <p class="text-muted"> Please enter the details for the new class</p>
-                        <input type="text" name="classTitle" placeholder="Enter Class Title">
-                        <h2>Choose class title image</h2>
+                        <h1>Update Class</h1>
+                        <p class="text-muted"> Change the details you want to update</p>
+                        <input type="text" name="classTitle" placeholder="Enter Class Title" value='<%= dataShow[0].Title %>'>
+                        <h2>Change Class Image</h2>
                         <div class="imgCont row">
                             <div class="col-md-4">
                                 <label>
-                                    <input type="radio" name="titleImg" value=1>
+                                    <input type="radio" name="titleImg" value=1 <% if(dataShow[0].titleImg === 1) {%>checked<%}%>>
                                     <img src="https://i.ibb.co/nMYBTzF/classroom-Title1.jpg" alt="title image choice"
                                          class="choiceImg">
                                 </label>
                             </div>
                             <div class="col-md-4">
                                 <label>
-                                    <input type="radio" name="titleImg" value=2>
+                                    <input type="radio" name="titleImg" value=2 <% if(dataShow[0].titleImg === 2) {%>checked<%}%>>
                                     <img src="https://i.ibb.co/8XkLWS2/classroom-Title2.jpg" alt="title image choice"
                                          class="choiceImg">
                                 </label>
                             </div>
                             <div class="col-md-4">
                                 <label>
-                                    <input type="radio" name="titleImg" value=3>
+                                    <input type="radio" name="titleImg" value=3 <% if(dataShow[0].titleImg === 3) {%>checked<%}%>>
                                     <img src="https://i.ibb.co/z8nk0ZY/classroom-Title3.jpg" alt="title image choice"
                                          class="choiceImg">
                                 </label>
@@ -36,21 +36,21 @@
                         <div class="imgCont row">
                             <div class="col-md-4">
                                 <label>
-                                    <input type="radio" name="titleImg" value=4>
+                                    <input type="radio" name="titleImg" value=4 <% if(dataShow[0].titleImg === 4) {%>checked<%}%>>
                                     <img src="https://i.ibb.co/pQMqprH/classroom-Title4.jpg" alt="title image choice"
                                          class="choiceImg">
                                 </label>
                             </div>
                             <div class="col-md-4">
                                 <label>
-                                    <input type="radio" name="titleImg" value=5>
+                                    <input type="radio" name="titleImg" value=5 <% if(dataShow[0].titleImg === 5) {%>checked<%}%>>
                                     <img src="https://i.ibb.co/CzVDSM2/classroom-Title5.jpg" alt="title image choice"
                                          class="choiceImg">
                                 </label>
                             </div>
                             <div class="col-md-4">
                                 <label>
-                                    <input type="radio" name="titleImg" value=6>
+                                    <input type="radio" name="titleImg" value=6 <% if(dataShow[0].titleImg === 6) {%>checked<%}%>>
                                     <img src="https://i.ibb.co/sq1xDPk/classroom-Title6.jpg" alt="title image choice"
                                          class="choiceImg">
                                 </label>
@@ -59,27 +59,27 @@
                         <div class="imgCont row">
                             <div class="col-md-4">
                                 <label>
-                                    <input type="radio" name="titleImg" value=7>
+                                    <input type="radio" name="titleImg" value=7 <% if(dataShow[0].titleImg === 7) {%>checked<%}%>>
                                     <img src="https://i.ibb.co/zWgntdn/classroom-Title7.jpg" alt="title image choice"
                                          class="choiceImg">
                                 </label>
                             </div>
                             <div class="col-md-4">
                                 <label>
-                                    <input type="radio" name="titleImg" value=8>
+                                    <input type="radio" name="titleImg" value=8 <% if(dataShow[0].titleImg === 8 ){%>checked<%}%>>
                                     <img src="https://i.ibb.co/vqBm1tg/classroom-Title8.jpg" alt="title image choice"
                                          class="choiceImg">
                                 </label>
                             </div>
                             <div class="col-md-4">
                                 <label>
-                                    <input type="radio" name="titleImg" value=9>
+                                    <input type="radio" name="titleImg" value=9 <% if(dataShow[0].titleImg === 9) {%>checked<%}%>>
                                     <img src="https://i.ibb.co/pdqFQBZ/classroom-Title9.jpg" alt="title image choice"
                                          class="choiceImg">
                                 </label>
                             </div>
                         </div>
-                        <input type="submit" value="Add Class">
+                        <input type="submit" value="Update Class">
                     </form>
                 <% } else if(type === 'stu'){ %>
                     <form class="box" method="POST">

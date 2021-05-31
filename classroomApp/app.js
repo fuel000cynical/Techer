@@ -39,10 +39,13 @@ io.on('connection', (socket) => {
         });
     });
     socket.on('removeStudent', (data) => {
-        console.log(JSON.stringify(data));
+        classRoomPeople.removeFromClass("student", data);
     });
     socket.on('removeTeacher', (data) => {
-        console.log(JSON.stringify(data));
+        classRoomPeople.removeFromClass("teacher", data);
+    })
+    socket.on('searchAddPeople', (data) => {
+      classRoomPeople.addPeopleToClassSearch(data);
     })
 })
 

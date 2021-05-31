@@ -1,0 +1,47 @@
+<%- include('partials/_header.ejs') %>
+<link rel="stylesheet" href="/css/searchAddPeopleToClass.css">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+      <a class="nav-link"><i class="fa fa-arrow-left" style="font-size: 40px; cursor: pointer;"></i><span style="font-size: 30px; cursor: pointer;">   Go Back</span></a>
+    </li>
+  </ul>
+  <form class="form-inline my-2 my-lg-0 ml-5">
+      <input class="form-control mr-sm-2" style="min-width: 1000px;" type="search"
+             placeholder="Search for accounts to add in the class" aria-label="Search"
+             id="searchPeopleNavBar" onInput="emitSearch()">
+      <input type="button" value="Add To Class" class="btn btn-outline-success">
+  </form>
+</nav>
+<div class="container-fluid mt-5 pt-2">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card text-center text-white bg-dark pt-2">
+        <h2 class="card-title">Teachers Searched</h2>
+      </div>
+      <form>
+        <div class="card mt-3 p-3 text-white bg-dark" style="border: solid 5px #f7f7f7; cursor: pointer;">
+          <div class="row">
+            <div class="col-md-10">
+              <h3 class="card-title" style="color: #5cb85c;">Test Name</h3>
+              <p class="text-muted card-subtitle" style="color : #f0ad4e !important;">Test Email</p>
+              <p class="text-muted card-subtitle" style="color : #d9534f !important;">Test Username</p>
+            </div>
+            <div class="col-md-1 mt-2" id="checked">
+              <i class="fa fa-check" style="font-size: 60px;"></i>
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <div class="card text-center text-white bg-dark pt-2">
+        <h2 class="card-title">Students Searched</h2>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/searchAddPeopleToClass.js"></script>
+<%- include('partials/_footer.ejs') %>

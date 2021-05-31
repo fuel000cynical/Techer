@@ -82,10 +82,13 @@ exports.controllerUpdate = async (req, res) => {
         if (req.validated) {
             if (what === 'class') {
                 await schema.techerClass.findOneAndUpdate({c_Id: whatId}, {
-                    Title: req.body.title
+                    Title: req.body.classTitle,
+                    titleImg : req.body.titleImg
                 }).then(data => {
                     if (!(data)) {
                         res.redirect(`/error?msg=${encodeURIComponent('There was an error while finding the class you want to update')}`);
+                    }else{
+                      res.redirect(`/classes/${idType}/${id}`);
                     }
                 }).catch(err => {
                     console.log(err);
@@ -100,6 +103,8 @@ exports.controllerUpdate = async (req, res) => {
                 }).then(data => {
                     if (!(data)) {
                         res.redirect(`/error?msg=${encodeURIComponent('There wan an error trying finding the student account you want to update')}`);
+                    }else{
+                      res.redirect(`/classes/${idType}/${id}`)
                     }
                 }).catch(err => {
                     console.log(err);

@@ -58,7 +58,7 @@ exports.validateAndFind = (req, res, next) => {
             res.redirect(`/error?msg=${encodeURIComponent('There was a problem finding the data of the teacher you want to update')}`);
         })
     } else if (String(whatType) === 'class') {
-        schema.student.find({c_Id: whatId}).then(data => {
+        schema.techerClass.find({c_Id: whatId}).then(data => {
             if (!(!(data))) {
                 req.foundWhat = true;
                 req.whatData = data;

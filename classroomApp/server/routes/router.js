@@ -55,9 +55,11 @@ router.post('/login/:idType', async (req, res) => {
 });
 
 
-router.get('/classes/:idType/:id', validator.valId, CLASScontroller.classMenuView)
+router.get('/classes/:idType/:id', validator.valId, CLASScontroller.classMenuView);
 router.get('/classroom/:idType/:id/:classId/people', validator.valId, CLASScontroller.classRoomPeopleView);
 router.get('/classroom/:idType/:id/:classId/work', validator.valId, CLASScontroller.classRoomPeopleView);
+router.get('/classroom/:idType/:id/:classId/addPeople', validator.valId, CLASScontroller.classRoomPeopleAddView);
+router.post('/classroom/:idType/:id/:classId/addPeople', validator.valId, CLASScontroller.classRoomPeopleAddPost);
 
 
 router.get('/add/:what/:idType/:id', validator.valId, AUview.viewAdd);
