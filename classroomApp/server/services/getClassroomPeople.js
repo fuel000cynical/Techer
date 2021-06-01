@@ -128,4 +128,14 @@ async function addPeopleToClassSearch(query){
     studentsToBeAdded : searchResultStudents
   })
 }
-module.exports = {allDataGiver, removeFromClass, addPeopleToClassSearch};
+
+async function addPeopleToClass(data){
+  await schema.techerClass.find({c_Id : data.classId}).then(async classData => {
+    let newDataStudents = classData[0].Students.concat(data.toAddArrayStudent);
+    let newDataTeachers = classData[0].Teachers.concat(data.toAddArrayTeacher);
+    await schema.techerClass.findOneAndUpdate({c_Id : data.classId}, {Teachers : newDataTeachers, Students : newDataStudents}).catch(err => {
+      console.log(err);
+    })
+  })
+}
+module.exports = {allDataGiver, removeFromClass, addPeopleToClassSearch, addPeopleToClass};

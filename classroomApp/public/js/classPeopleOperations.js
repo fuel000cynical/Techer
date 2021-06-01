@@ -65,7 +65,9 @@ socketIo.on('sendAllData', (data) => {
     addStudentToClassBtn.classList.add('btn-success');
     addStudentToClassBtn.style.width = "100%";
     addStudentToClassBtn.innerHTML = "Add Student To Class";
+    addStudentToClassBtn.setAttribute('onclick', `location.href="/classroom/${userType}/${userId}/${classId}/addPeople"`);
     document.getElementById('studentsTable').appendChild(addStudentToClassBtn);
+
     data.teachers.forEach(dataGot => {
         const tableRowTeachers = document.createElement('tr');
         const tableDataTeachers0 = document.createElement('td');
@@ -95,5 +97,6 @@ socketIo.on('sendAllData', (data) => {
     addTeacherToClassBtn.classList.add('btn-success');
     addTeacherToClassBtn.style.width = "100%";
     addTeacherToClassBtn.innerHTML = "Add Teacher To Class";
+    addTeacherToClassBtn.setAttribute('onclick', `location.href="/classroom/${userType}/${userId}/${classId}/addPeople"`);
     document.getElementById('teachersTable').appendChild(addTeacherToClassBtn);
 })

@@ -49,6 +49,11 @@ io.on('connection', (socket) => {
           socket.emit('searchAddPeopleResult', {searchedResult : dataFound});
       })
     })
+
+    socket.on('addPeopleToClass', async data => {
+        await classRoomPeople.addPeopleToClass(data);
+        socket.emit('addComplete', {});
+    })
 })
 
 server.listen(8000);

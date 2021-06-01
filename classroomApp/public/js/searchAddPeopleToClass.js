@@ -1,13 +1,13 @@
 const socket = io();
 const urlArray = window.location.pathname.split('/');
 const classId = urlArray[4];
-const toAddArray = [];
+let toAddArrayTeacher = [];
+let toAddArrayStudent = [];
 const studentResultBox = document.getElementById('studentShowSearch');
 const teacherResultBox = document.getElementById('teacherShowSearch');
 
 async function emitSearch() {
     let searchValue = document.getElementById('searchPeopleNavBar').value;
-    console.log(toAddArray);
     await socket.emit('searchAddPeople', {searchQuery: searchValue, classId});
     await socket.on('searchAddPeopleResult', (query) => {
         addSearchElements(query.searchedResult);
@@ -30,7 +30,7 @@ function addSearchElements(query){
     mainCard.classList.add("bg-dark");
     mainCard.style.cursor = "pointer";
     mainCard.setAttribute('id', student.s_Id);
-    mainCard.setAttribute('onclick', `changeStatus('${student.s_Id}')`);
+    mainCard.setAttribute('onclick', `changeStatus('${student.s_Id}', 'student')`);
     mainCard.innerHTML = `
     <div class="row">
       <div class="col-md-10">
@@ -40,6 +40,14 @@ function addSearchElements(query){
       </div>
     </div>`
     studentResultBox.appendChild(mainCard);
+    if(toAddArrayStudent.includes(student.s_Id)){
+      const tick = document.createElement('div');
+      tick.classList.add("col-md-1");
+      tick.classList.add("mt-2");
+      tick.innerHTML = `<i class="fa fa-check" style="font-size: 60px;"></i>`;
+      document.getElementById(student.s_Id).children[0].appendChild(tick);
+      document.getElementById(student.s_Id).style.border = "solid 5px #f7f7f7";
+    }
   })
   query.teachersToBeAdded.forEach(teacher => {
     const mainCard = document.createElement('div');
@@ -50,7 +58,7 @@ function addSearchElements(query){
     mainCard.classList.add("bg-dark");
     mainCard.style.cursor = "pointer";
     mainCard.setAttribute('id', teacher.t_Id)
-    mainCard.setAttribute('onclick', `changeStatus("${teacher.t_Id}")`);
+    mainCard.setAttribute('onclick', `changeStatus("${teacher.t_Id}", 'teacher')`);
     mainCard.innerHTML = `
     <div class="row">
       <div class="col-md-10">
@@ -60,19 +68,57 @@ function addSearchElements(query){
       </div>
     </div>`
     teacherResultBox.appendChild(mainCard);
+    if(toAddArrayTeacher.includes(teacher.t_Id)){
+      const tick = document.createElement('div');
+      tick.classList.add("col-md-1");
+      tick.classList.add("mt-2");
+      tick.innerHTML = `<i class="fa fa-check" style="font-size: 60px;"></i>`;
+      document.getElementById(teacher.t_Id).children[0].appendChild(tick);
+      document.getElementById(teacher.t_Id).style.border = "solid 5px #f7f7f7";
+    }
   })
 }
 
-function changeStatus(id){
-  if(toAddArray.includes(id)){
-
-  }else{
-    const tick = document.createElement('div');
-    tick.classList.add("col-md-1");
-    tick.classList.add("mt-2");
-    tick.innerHTML = `<i class="fa fa-check" style="font-size: 60px;"></i>`;
-    document.getElementById(id).children[0].appendChild(tick);
-    document.getElementById(id).style.border = "solid 5px #f7f7f7";
-    toAddArray.push(id);
+function changeStatus(id, type){
+  if(type === 'student'){
+    if(toAddArrayStudent.includes(id)){
+      document.getElementById(id).children[0].removeChild(document.getElementById(id).children[0].lastChild);
+      document.getElementById(id).style.border = "0";
+      toAddArrayStudent = toAddArrayStudent.filter(data => data !== id);
+    }else{
+      const tick = document.createElement('div');
+      tick.classList.add("col-md-1");
+      tick.classList.add("mt-2");
+      tick.innerHTML = `<i class="fa fa-check" style="font-size: 60px;"></i>`;
+      document.getElementById(id).children[0].appendChild(tick);
+      document.getElementById(id).style.border = "solid 5px #f7f7f7";
+      toAddArrayStudent.push(id);
+    }
+  }else if(type === 'teacher'){
+    if(toAddArrayTeacher.includes(id)){
+      document.getElementById(id).children[0].removeChild(document.getElementById(id).children[0].lastChild);
+      document.getElementById(id).style.border = "0";
+      toAddArrayTeacher = toAddArrayTeacher.filter(data => data !== id);
+    }else{
+      const tick = document.createElement('div');
+      tick.classList.add("col-md-1");
+      tick.classList.add("mt-2");
+      tick.innerHTML = `<i class="fa fa-check" style="font-size: 60px;"></i>`;
+      document.getElementById(id).children[0].appendChild(tick);
+      document.getElementById(id).style.border = "solid 5px #f7f7f7";
+      toAddArrayTeacher.push(id);
+    }
   }
+}
+
+async function addPeople(){
+  await socket.emit('addPeopleToClass', {classId, toAddArrayTeacher, toAddArrayStudent});
+  alert('The people you chose to add in the class have been added. You can now go back to class by clicking the go back button');
+  await socket.on('addComplete', async () => {
+    let searchValue = document.getElementById('searchPeopleNavBar').value;
+    await socket.emit('searchAddPeople', {searchQuery: searchValue, classId});
+    await socket.on('searchAddPeopleResult', (query) => {
+        addSearchElements(query.searchedResult);
+    })
+  })
 }

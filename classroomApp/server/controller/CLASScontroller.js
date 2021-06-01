@@ -169,7 +169,5 @@ exports.classRoomPeopleView = async (req, res) => {
 };
 
 exports.classRoomPeopleAddView = (req, res) => {
-  res.render('searchAddPeopleToClass');
+  res.render('searchAddPeopleToClass', {classId : req.params.classId, userType : req.params.idType, userId : req.params.id});
 };
-
-exports.classRoomPeopleAddPost = (req,res) => {};
