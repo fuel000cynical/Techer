@@ -41,7 +41,6 @@ exports.viewUpdate = async (req, res) => {
         if (req.validated) {
             if (what === 'class') {
                 if (req.foundWhat) {
-                    console.log(req.whatData);
                     res.render('updateForm', {type: 'techerClass', dataShow: req.whatData});
                 }
             } else if (what === 'stu') {

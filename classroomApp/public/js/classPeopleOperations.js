@@ -27,15 +27,20 @@ function removeTeacher(teacherId) {
 
 socketIo.on('sendAllData', (data) => {
     let adminStatus = data.stat;
-
+    try{
+        var element = document.getElementById("teacherAddBtn");
+        element.parentNode.removeChild(element);
+    }catch{};
     while (classStudentsBox.firstChild) {
         classStudentsBox.removeChild(classStudentsBox.firstChild);
     }
-
+    try{
+        var element = document.getElementById("studentAddBtn");
+        element.parentNode.removeChild(element);
+    }catch{}
     while (classTeachersBox.firstChild) {
         classTeachersBox.removeChild(classTeachersBox.firstChild);
     }
-
     data.students.forEach(dataGot => {
         const tableRowStudents = document.createElement('tr');
         const tableDataStudents0 = document.createElement('td');
@@ -60,13 +65,16 @@ socketIo.on('sendAllData', (data) => {
         }
         classStudentsBox.appendChild(tableRowStudents);
     })
-    const addStudentToClassBtn = document.createElement("button");
-    addStudentToClassBtn.classList.add('btn');
-    addStudentToClassBtn.classList.add('btn-success');
-    addStudentToClassBtn.style.width = "100%";
-    addStudentToClassBtn.innerHTML = "Add Student To Class";
-    addStudentToClassBtn.setAttribute('onclick', `location.href="/classroom/${userType}/${userId}/${classId}/addPeople"`);
-    document.getElementById('studentsTable').appendChild(addStudentToClassBtn);
+    if(userType === 'teach'){
+        const addStudentToClassBtn = document.createElement("button");
+        addStudentToClassBtn.classList.add('btn');
+        addStudentToClassBtn.classList.add('btn-success');
+        addStudentToClassBtn.setAttribute('id', 'studentAddBtn');
+        addStudentToClassBtn.style.width = "100%";
+        addStudentToClassBtn.innerHTML = "Add Student To Class";
+        addStudentToClassBtn.setAttribute('onclick', `location.href="/classroom/${userType}/${userId}/${classId}/addPeople"`);
+        document.getElementById('studentsTable').appendChild(addStudentToClassBtn);
+    }
 
     data.teachers.forEach(dataGot => {
         const tableRowTeachers = document.createElement('tr');
@@ -92,11 +100,14 @@ socketIo.on('sendAllData', (data) => {
         }
         classTeachersBox.appendChild(tableRowTeachers);
     })
-    const addTeacherToClassBtn = document.createElement("button");
-    addTeacherToClassBtn.classList.add('btn');
-    addTeacherToClassBtn.classList.add('btn-success');
-    addTeacherToClassBtn.style.width = "100%";
-    addTeacherToClassBtn.innerHTML = "Add Teacher To Class";
-    addTeacherToClassBtn.setAttribute('onclick', `location.href="/classroom/${userType}/${userId}/${classId}/addPeople"`);
-    document.getElementById('teachersTable').appendChild(addTeacherToClassBtn);
+    if(userType === 'teach'){
+        const addTeacherToClassBtn = document.createElement("button");
+        addTeacherToClassBtn.classList.add('btn');
+        addTeacherToClassBtn.classList.add('btn-success');
+        addTeacherToClassBtn.style.width = "100%";
+        addTeacherToClassBtn.setAttribute('id', 'teacherAddBtn');
+        addTeacherToClassBtn.innerHTML = "Add Teacher To Class";
+        addTeacherToClassBtn.setAttribute('onclick', `location.href="/classroom/${userType}/${userId}/${classId}/addPeople"`);
+        document.getElementById('teachersTable').appendChild(addTeacherToClassBtn);
+    }
 })

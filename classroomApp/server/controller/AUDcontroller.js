@@ -122,7 +122,7 @@ exports.controllerUpdate = async (req, res) => {
                         if (!(data)) {
                             res.redirect(`/error?msg=${encodeURIComponent('There was an error updating the teacher account')}`);
                         } else {
-                            res.redirect(`/classes/teach/${data.t_Id}`);
+                            res.redirect(`/classes/${idType}/${id}`);
                         }
                     })
                 } else {

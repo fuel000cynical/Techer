@@ -1,5 +1,12 @@
 const socket = io();
 
+const urlArray = window.location.pathname.split('/');
+const userType = urlArray[2];
+const userId = urlArray[3];
+
+if(userType === 'teach'){
+    socket.emit('getAdminStatus', {userId});
+}
 
 async function emitSearch() {
     let searchValue = document.getElementById('searchAllNavBar').value;
@@ -45,7 +52,7 @@ function addSearchElements(elementData) {
                             <p class="card-subtitle text-muted">${elementData.teachersSearched[i].Email}</p>
                             <a href="/update/instru/${userType}/${userId}/${elementData.teachersSearched[i].t_Id}" class="btn btn-primary mt-2" style="width: 100%" >Edit Teacher Account</a>
                             <form action="/delete/instru/${userType}/${userId}/${elementData.teachersSearched[i].t_Id}" method="POST" >
-                                <button type="submit" class="btn btn-danger mt-2" style="width: 100%;">Delete Class</button>
+                                <button type="submit" class="btn btn-danger mt-2" style="width: 100%;">Delete Teacher</button>
                             </form>
                         </div>
                     </div>`;
@@ -91,7 +98,7 @@ function addSearchElements(elementData) {
                         <a href="/classroom/${userType}/${userId}/${elementData.classesSearched[i].c_Id}/work" class="btn btn-success" style="width: 100%">Go To Class</a>
                         <a href="/update/class/${userType}/${userId}/${elementData.classesSearched[i].c_Id}" class="btn btn-warning mt-2" style="width: 100%">Edit Class</a>
                         <form action="/delete/class/${userType}/${userId}/${elementData.classesSearched[i].c_Id}" method="POST">
-                            <button type="submit" class="btn btn-danger mt-2" style="width: 100%;">Delete Teacher</button>
+                            <button type="submit" class="btn btn-danger mt-2" style="width: 100%;">Delete Class</button>
                         </form>
                     </div>
                 </div>`;
