@@ -138,4 +138,17 @@ async function addPeopleToClass(data){
     })
   })
 }
-module.exports = {allDataGiver, removeFromClass, addPeopleToClassSearch, addPeopleToClass};
+
+async function getAdminStatus(data){
+  let adminStat;
+  await schema.teacher.find({t_Id : data}).then(teachData => {
+    if(!!teachData){
+      adminStat = teachData[0].Admin;
+    }else{
+      adminStat = false;
+    }
+  })
+  return adminStat;
+}
+
+module.exports = {allDataGiver, removeFromClass, addPeopleToClassSearch, addPeopleToClass, getAdminStatus};

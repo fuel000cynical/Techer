@@ -67,6 +67,11 @@ io.on('connection', (socket) => {
         await classRoomPeople.addPeopleToClass(data);
         socket.emit('addComplete', {});
     })
+    socket.on('getAdminStatus', async data => {
+        classRoomPeople.getAdminStatus(data.userId).then(result => {
+            socket.emit('resultAdminStatus', {adminStat : result});
+        });
+    })
 })
 
 server.listen(8000);

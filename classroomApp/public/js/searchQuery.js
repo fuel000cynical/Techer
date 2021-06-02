@@ -3,9 +3,13 @@ const socket = io();
 const urlArray = window.location.pathname.split('/');
 const userType = urlArray[2];
 const userId = urlArray[3];
+let adminStat = false;
 
 if(userType === 'teach'){
     socket.emit('getAdminStatus', {userId});
+    socket.on('resultAdminStatus', (data => {
+        adminStat = data.adminStat;
+    }));
 }
 
 async function emitSearch() {
@@ -44,18 +48,22 @@ function addSearchElements(elementData) {
     for (let i = 0; i < elementData.teachersSearched.length; i++) {
         const teacherCard = document.createElement('div');
         teacherCard.classList.add('col-md-12');
-        teacherCard.innerHTML = `
-                    <div class="card bg-dark text-light mr-5 mt-2">
-                        <div class="card-body">
-                            <h2 class="card-title">${elementData.teachersSearched[i].Name}</h2>
-                            <p class="card-subtitle text-muted">${elementData.teachersSearched[i].Username}</p>
-                            <p class="card-subtitle text-muted">${elementData.teachersSearched[i].Email}</p>
-                            <a href="/update/instru/${userType}/${userId}/${elementData.teachersSearched[i].t_Id}" class="btn btn-primary mt-2" style="width: 100%" >Edit Teacher Account</a>
-                            <form action="/delete/instru/${userType}/${userId}/${elementData.teachersSearched[i].t_Id}" method="POST" >
-                                <button type="submit" class="btn btn-danger mt-2" style="width: 100%;">Delete Teacher</button>
-                            </form>
-                        </div>
-                    </div>`;
+        var html =  `
+        <div class="card bg-dark text-light mr-5 mt-2">
+            <div class="card-body">
+                <h2 class="card-title">${elementData.teachersSearched[i].Name}</h2>
+                <p class="card-subtitle text-muted">${elementData.teachersSearched[i].Username}</p>
+                <p class="card-subtitle text-muted">${elementData.teachersSearched[i].Email}</p>`
+
+        if(adminStat){
+            html = html +  `<a href="/update/instru/${userType}/${userId}/${elementData.teachersSearched[i].t_Id}" class="btn btn-primary mt-2" style="width: 100%" >Edit Teacher Account</a>
+            <form action="/delete/instru/${userType}/${userId}/${elementData.teachersSearched[i].t_Id}" method="POST" >
+                <button type="submit" class="btn btn-danger mt-2" style="width: 100%;">Delete Teacher</button>
+            </form>`
+        }
+        html = html + `</div>
+        </div>`
+        teacherCard.innerHTML = html;
 
         teacherShowResultBox.appendChild(teacherCard);
     }
