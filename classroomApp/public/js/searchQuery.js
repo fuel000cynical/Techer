@@ -8,14 +8,20 @@ if(userType === 'teach'){
         adminStat = data.adminStat;
     }));
 }
+async function start(){
+    await socket.emit('searchQuery', {querySearched: ''});
+}
+
+start();
 
 async function emitSearch() {
     let searchValue = document.getElementById('searchAllNavBar').value;
     await socket.emit('searchQuery', {querySearched: searchValue});
-    await socket.on('searchResult', (query) => {
-        addSearchElements(query.result);
-    })
 }
+
+socket.on('searchResult', (query) => {
+    addSearchElements(query.result);
+})
 
 function focusSearch() {
     document.getElementById('nonFocusSearch').style.visibility = 'hidden';

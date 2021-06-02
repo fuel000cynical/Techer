@@ -9,7 +9,11 @@ const uid = require('uniqid');
 
 
 router.get('/login', async (req, res) => {
-    res.render('login');
+    if(!req.query.wrongLogin){
+        res.render('login', {wrongLogin : false});
+    }else{
+        res.render('login', {wrongLogin : req.query.wrongLogin});
+    }
 });
 router.post('/login/:idType', async (req, res) => {
     let idType = String(req.params.idType);
@@ -22,10 +26,10 @@ router.post('/login/:idType', async (req, res) => {
                 if (data[0].Username === req.body.Username) {
                     res.redirect(`/classes/teach/${data[0].t_Id}`)
                 } else {
-                    res.redirect('/login');
+                    res.redirect('/login?wrongLogin=true');
                 }
             } else {
-                res.redirect('/login');
+                res.redirect('/login?wrongLogin=true');
             }
         }).catch(err => {
             console.log(err);
@@ -40,10 +44,10 @@ router.post('/login/:idType', async (req, res) => {
                 if (data[0].Username === req.body.Username) {
                     res.redirect(`/classes/learn/${data[0].s_Id}`)
                 } else {
-                    res.redirect('/login');
+                    res.redirect('/login?wrongLogin=true');
                 }
             } else {
-                res.redirect('/login');
+                res.redirect('/login?wrongLogin=true');
             }
         }).catch(err => {
             console.log(err);

@@ -4,13 +4,19 @@ let toAddArrayStudent = [];
 const studentResultBox = document.getElementById('studentShowSearch');
 const teacherResultBox = document.getElementById('teacherShowSearch');
 
+async function start(){
+  await socket.emit('searchAddPeople', {searchQuery: '', classId});
+}
+start();
+
 async function emitSearch() {
     let searchValue = document.getElementById('searchPeopleNavBar').value;
     await socket.emit('searchAddPeople', {searchQuery: searchValue, classId});
-    await socket.on('searchAddPeopleResult', (query) => {
-        addSearchElements(query.searchedResult);
-    })
 }
+
+socket.on('searchAddPeopleResult', (query) => {
+  addSearchElements(query.searchedResult);
+})
 
 function addSearchElements(query){
   while(studentResultBox.firstChild){
