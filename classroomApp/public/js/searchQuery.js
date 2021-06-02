@@ -1,8 +1,5 @@
 const socket = io();
 
-const urlArray = window.location.pathname.split('/');
-const userType = urlArray[2];
-const userId = urlArray[3];
 let adminStat = false;
 
 if(userType === 'teach'){

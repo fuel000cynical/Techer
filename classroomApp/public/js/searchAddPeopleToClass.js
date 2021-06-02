@@ -1,6 +1,4 @@
 const socket = io();
-const urlArray = window.location.pathname.split('/');
-const classId = urlArray[4];
 let toAddArrayTeacher = [];
 let toAddArrayStudent = [];
 const studentResultBox = document.getElementById('studentShowSearch');

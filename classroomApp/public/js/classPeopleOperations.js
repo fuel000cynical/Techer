@@ -2,10 +2,6 @@ const socketIo = io();
 
 const classStudentsBox = document.getElementById("studentsShowTable")
 const classTeachersBox = document.getElementById('teachersShowTable');
-const urlArray = window.location.pathname.split('/');
-const classId = urlArray[4];
-const userId = urlArray[3];
-const userType = urlArray[2];
 
 
 function startData() {

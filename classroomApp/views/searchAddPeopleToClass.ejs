@@ -1,4 +1,10 @@
 <%- include('partials/_header.ejs') %>
+<script>
+  const urlArray = window.location.pathname.split('/');
+  const userType = urlArray[2];
+  const userId = urlArray[3];
+  const classId = urlArray[4];
+</script>
 <link rel="stylesheet" href="/css/searchAddPeopleToClass.css">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <ul class="navbar-nav mr-auto">

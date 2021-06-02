@@ -1,4 +1,10 @@
 <%- include('partials/_header.ejs') %>
+<script>
+    const urlArray = window.location.pathname.split('/');
+    const userType = urlArray[2];
+    const userId = urlArray[3];
+    const classId = urlArray[4];
+</script>
 <%- include('partials/_navBar.ejs') %>
 <link rel="stylesheet" href="/css/classRoomPeopleCSS.css">
 <div <% if(instruct){ %>id="nonFocusSearch"
