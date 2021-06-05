@@ -11,7 +11,10 @@ const server = http.createServer(app);
 const socketIo = require('socket.io');
 const io = new socketIo.Server(server);
 const path = require('path');
+const schema = require('./server/model/schema');
+const uid = require('uniqid');
 const searcher = require('./server/services/search');
+const sessions = require('./server/services/sessionServices');
 
 app.use(compression({level: 9, threshold: 0}));
 app.set('view engine', 'ejs')
@@ -67,11 +70,53 @@ io.on('connection', (socket) => {
         await classRoomPeople.addPeopleToClass(data);
         socket.emit('addComplete', {});
     })
-    socket.on('getAdminStatus', async data => {
-        classRoomPeople.getAdminStatus(data.userId).then(result => {
-            socket.emit('resultAdminStatus', {adminStat : result});
-        });
+    socket.on('login', async (dataFromClient) => {
+        let idType = String(dataFromClient.loginType);
+        if ("teach" === idType) {
+            await schema.teacher.find({
+                Username: dataFromClient.Username,
+                Password: dataFromClient.Password
+            }).then(data => {
+                if (!(!data) && data[0] !== undefined && data !== []) {
+                    if (data[0].Username === dataFromClient.Username) {
+                        const sessionId = uid()
+                        socket.emit('loginResult', {error : false, status : true, id : data[0].t_Id, idType : 'teach', sentID : sessionId});
+                    } else {
+                        socket.emit('loginResult', {error : false, status : false});
+                    }
+                } else {
+                    socket.emit('loginResult', {error : false, status : false});
+                }
+            }).catch(err => {
+                console.log(err);
+                socket.emit('loginResult', {error : 'There was an error logging you in, please don not retry', status : false});
+            });
+        } else if (idType === 'learn') {
+            await schema.student.find({
+                Username: dataFromClient.Username,
+                Password: dataFromClient.Password
+            }).then(data => {
+                if (!(!data) && data[0] !== undefined && data !== []) {
+                    if (data[0].Username === dataFromClient.Username) {
+                        const sessionId = uid();
+                        socket.emit('loginResult', {error : false, status : true, id : data[0].s_Id, idType : 'learn', sentID : sessionId});
+                    } else {
+                        socket.emit('loginResult', {error : false, status : false});
+                    }
+                } else {
+                    socket.emit('loginResult', {error : false, status : false});
+                }
+            }).catch(err => {
+                console.log(err);
+                socket.emit('loginResult', {error : 'There was an error logging in, please don not try again', status : false})
+            });
+        } else {
+            socket.emit('loginResult', {error : 'id type used in url not found.', status : false});
+        }
     })
+    socket.on('sessionData', (data) => {
+        console.log(data);
+    });
 })
 
 server.listen(8000);

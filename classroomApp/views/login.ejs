@@ -5,22 +5,20 @@
         <div class="col-md-6">
             <div class="card">
                 <form method="POST" class="box">
-                    <% if(wrongLogin){ %>
-                        <div class="alert alert-warning ml-1 mb-5" role="alert">
-                            <b>The Login Id or Password entered was incorrect</b>
-                        </div>
-                    <%}%>
+                    <div class="alert alert-warning ml-1 mb-5" role="alert" id="wrongLogin" style="visibility: hidden; opacity: 0; height: 0; transition: height 0.5s, visibility 0s, opacity 0.5s linear;">
+                        <b>The Login Id or Password entered was incorrect</b>
+                    </div>
                     <h1>Login</h1>
                     <p class="text-muted"> Please enter your username and password</p>
-                    <input type="text" name="Username" placeholder="Username">
-                    <input type="password" name="Password" placeholder="Password">
+                    <input type="text" name="Username" placeholder="Username" id="username">
+                    <input type="password" name="Password" placeholder="Password" id="password">
                     <a class="forgot text-muted" href="#">Forgot password?</a>
                     <div class="row">
                         <div class="col-md-6">
-                            <input type="submit" value="Login As Student" formaction="/login/learn">
+                            <input type="button" value="Login As Student" onclick="loginStudent()">
                         </div>
                         <div class="col-md-6">
-                            <input type="submit" value="Login As Teacher" formaction="/login/teach">
+                            <input type="button" value="Login As Teacher" onclick="loginTeacher()">
                         </div>
                     </div>
                 </form>
@@ -28,5 +26,6 @@
         </div>
     </div>
 </div>
-
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/loginSessions.js"></script>
 <%- include('partials/_footer.ejs') %> 

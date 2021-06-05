@@ -15,49 +15,6 @@ router.get('/login', async (req, res) => {
         res.render('login', {wrongLogin : req.query.wrongLogin});
     }
 });
-router.post('/login/:idType', async (req, res) => {
-    let idType = String(req.params.idType);
-    if ("teach" === idType) {
-        await schema.teacher.find({
-            Username: req.body.Username,
-            Password: req.body.Password
-        }).then(data => {
-            if (!(!data) && data[0] !== undefined && data !== []) {
-                if (data[0].Username === req.body.Username) {
-                    res.redirect(`/classes/teach/${data[0].t_Id}`)
-                } else {
-                    res.redirect('/login?wrongLogin=true');
-                }
-            } else {
-                res.redirect('/login?wrongLogin=true');
-            }
-        }).catch(err => {
-            console.log(err);
-            res.redirect(`/error?msg=${encodeURIComponent('There was an error logging you in, please don not retry')}`);
-        });
-    } else if (idType === 'learn') {
-        await schema.student.find({
-            Username: req.body.Username,
-            Password: req.body.Password
-        }).then(data => {
-            if (!(!data) && data[0] !== undefined && data !== []) {
-                if (data[0].Username === req.body.Username) {
-                    res.redirect(`/classes/learn/${data[0].s_Id}`)
-                } else {
-                    res.redirect('/login?wrongLogin=true');
-                }
-            } else {
-                res.redirect('/login?wrongLogin=true');
-            }
-        }).catch(err => {
-            console.log(err);
-            res.redirect(`/error?msg=${encodeURIComponent('There was an error logging in, please don not try again')}`);
-        });
-    } else {
-        res.redirect(`/error?msg=${encodeURIComponent('id type used in url not found.')}`);
-    }
-});
-
 
 router.get('/classes/:idType/:id', validator.valId, CLASScontroller.classMenuView);
 router.get('/classroom/:idType/:id/:classId/people', validator.valId, CLASScontroller.classRoomPeopleView);
