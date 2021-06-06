@@ -99,10 +99,6 @@ Class.pre('save', async function preSave() {
 let techerClass = mongo.model('classes', Class);
 
 const sessionSchema = new mongo.Schema({
-    sessionId: {
-        type: String,
-        required: true
-    },
     userType: {
         type: String,
         required: true

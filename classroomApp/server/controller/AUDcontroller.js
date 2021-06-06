@@ -1,5 +1,6 @@
 const schema = require('../model/schema');
 const uid = require('uniqid');
+const mailer = require('./../services/nodeMailerSetup');
 
 exports.controllerAdd = async (req, res) => {
     let data;
@@ -38,6 +39,20 @@ exports.controllerAdd = async (req, res) => {
                     Password: req.body.Password
                 });
                 await data.save().then(data => {
+                    const html = `
+                    <p>Your Teacher ${name} Created A New Techer Student Account For You !</p>
+                    <p>Details : </p>
+                    <ul>
+                        <li>Name     : ${data.Name}</li>
+                        <li>Email    : ${data.Email}</li>
+                        <li>Username : ${data.Username}</li>
+                        <li>Password : ${data.Password}</li>
+                    </ul><br><br>
+                    <a href="http://localhost:8000/login">Go And Login</a>
+                    `
+                    mailer(data.Email, 'Techer Acount Created', 'Your techer has created a new techer student account for you !', html).catch(err => {
+                        console.log(err);
+                    })
                     res.redirect(`/classes/${idType}/${id}`);
                 }).catch(err => {
                     console.log(err);

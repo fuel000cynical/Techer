@@ -1,12 +1,30 @@
 const socket = io();
 
-async function loginStudent(){
+document.addEventListener('DOMcontentloaded', checkSesion(event));
+
+async function checkSesion(e){
+    if(!!localStorage.getItem('techer_sesion')){
+        await socket.emit('checkSesion', {sessionId : localStorage.getItem('techer_sesion')})
+    }
+}
+
+socket.on('checkSesionResult', (check) => {
+    if(check.error === false){
+        if(check.status){
+            location.href=`/classes/${check.idType}/${check.userId}`;
+        }
+    }else{
+        location.href=`/error?msg=${check.error}`;
+    }
+})
+
+function loginStudent(){
     const Username = document.getElementById('username').value;
     const Password = document.getElementById('password').value;
     socket.emit('login', {Username, Password, loginType : 'learn'});
 }
 
-async function loginTeacher(){
+function loginTeacher(){
     const Username = document.getElementById('username').value;
     const Password = document.getElementById('password').value;
     socket.emit('login', {Username, Password, loginType : 'teach'});

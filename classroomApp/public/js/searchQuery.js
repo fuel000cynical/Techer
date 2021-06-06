@@ -4,10 +4,12 @@ let adminStat = false;
 
 if(userType === 'teach'){
     socket.emit('getAdminStatus', {userId});
-    socket.on('resultAdminStatus', (data => {
-        adminStat = data.adminStat;
-    }));
 }
+
+socket.on('resultAdminStatus', (data => {
+    adminStat = data.adminStat;
+}));
+
 async function start(){
     await socket.emit('searchQuery', {querySearched: ''});
 }

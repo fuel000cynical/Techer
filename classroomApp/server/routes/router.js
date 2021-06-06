@@ -9,11 +9,7 @@ const uid = require('uniqid');
 
 
 router.get('/login', async (req, res) => {
-    if(!req.query.wrongLogin){
-        res.render('login', {wrongLogin : false});
-    }else{
-        res.render('login', {wrongLogin : req.query.wrongLogin});
-    }
+    res.render('login');
 });
 
 router.get('/classes/:idType/:id', validator.valId, CLASScontroller.classMenuView);
@@ -37,6 +33,10 @@ router.get('/error', (req, res) => {
     let message = req.query.msg;
     res.render('error', {errorMsg: message});
 });
+
+router.get('/sign-out', (req, res) => {
+    res.render('signOut');
+})
 
 
 module.exports = router;

@@ -79,8 +79,17 @@ io.on('connection', (socket) => {
             }).then(data => {
                 if (!(!data) && data[0] !== undefined && data !== []) {
                     if (data[0].Username === dataFromClient.Username) {
-                        const sessionId = uid()
-                        socket.emit('loginResult', {error : false, status : true, id : data[0].t_Id, idType : 'teach', sentID : sessionId});
+                        const sesionData = schema.sessionModel({
+                            userType : 'teach',
+                            userName : data[0].Username,
+                            userId : data[0].t_Id
+                        });
+                        sesionData.save().then(session => {
+                            socket.emit('loginResult', {error : false, status : true, id : data[0].t_Id, idType : 'teach', sentID : session._id});
+                        }).catch(err => {
+                            console.log(err);
+                            socket.emit('loginResult', {error : 'There was an error creating your session', status : false});
+                        });
                     } else {
                         socket.emit('loginResult', {error : false, status : false});
                     }
@@ -98,8 +107,17 @@ io.on('connection', (socket) => {
             }).then(data => {
                 if (!(!data) && data[0] !== undefined && data !== []) {
                     if (data[0].Username === dataFromClient.Username) {
-                        const sessionId = uid();
-                        socket.emit('loginResult', {error : false, status : true, id : data[0].s_Id, idType : 'learn', sentID : sessionId});
+                        const sesionData = schema.sessionModel({
+                            userType : 'learn',
+                            userName : data[0].Username,
+                            userId : data[0].s_Id
+                        });
+                        sesionData.save().then(session => {
+                            socket.emit('loginResult', {error : false, status : true, id : data[0].s_Id, idType : 'learn', sentID : session._id});
+                        }).catch(err => {
+                            console.log(err);
+                            socket.emit('loginResult', {error : 'There was an error creating your session', status : false});
+                        });
                     } else {
                         socket.emit('loginResult', {error : false, status : false});
                     }
@@ -114,9 +132,28 @@ io.on('connection', (socket) => {
             socket.emit('loginResult', {error : 'id type used in url not found.', status : false});
         }
     })
-    socket.on('sessionData', (data) => {
-        console.log(data);
+    socket.on('checkSesion', (data) => {
+        schema.sessionModel.findById(data.sessionId).then(sessionData => {
+            if(!!sessionData && sessionData !== null){
+                socket.emit('checkSesionResult', {error : false, status : true, idType : sessionData.userType, userId : sessionData.userId});
+            }else{
+                socket.emit('checkSesionResult', {error : false, status : false});
+            }
+        }).catch(err => {
+            console.log(err);
+            socket.emit('checkSesionResult', {error : 'There was an error retrieving your session data, please login again'});
+        })
     });
+    socket.on('signOut', (data) => {
+        schema.sessionModel.findByIdAndDelete(data.sesionId).catch(err => {
+            console.log(err);
+        });
+    })
+    socket.on('getAdminStatus', (data) => {
+        schema.teacher.findOne({t_Id : data.userId}).then(data => {
+            socket.emit('resultAdminStatus', {adminStat : data.Admin});
+        })
+    })
 })
 
 server.listen(8000);
