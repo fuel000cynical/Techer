@@ -15,6 +15,8 @@ router.get('/login', async (req, res) => {
 router.get('/classes/:idType/:id', validator.valId, CLASScontroller.classMenuView);
 router.get('/classroom/:idType/:id/:classId/people', validator.valId, CLASScontroller.classRoomPeopleView);
 router.get('/classroom/:idType/:id/:classId/work', validator.valId, CLASScontroller.classRoomPeopleView);
+router.get('/classroom/:idType/:id/:classId/work/add/:type', validator.valId, CLASScontroller.classRoomPeopleView);
+router.post('/classroom/:idType/:id/:classId/work/add/:type', validator.valId, CLASScontroller.classRoomPeopleView);
 router.get('/classroom/:idType/:id/:classId/addPeople', validator.valId, CLASScontroller.classRoomPeopleAddView);
 
 

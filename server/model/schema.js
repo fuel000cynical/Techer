@@ -117,4 +117,21 @@ sessionSchema.pre('save', async function preSave() {
 });
 let sessionModel = mongo.model('sessionstores', sessionSchema);
 
+const noteAssignmentSchema = new mongo.Schema({
+    text : {
+        required : true,
+        type : String
+    }
+});
+
+const submissionAssignmentSchema = new mongo.Schema({
+    text : {
+        type : String
+    },
+    assignmentPDF : {
+        type : [String],
+        required: true
+    }
+})
+
 module.exports = {sessionModel, student, teacher, techerClass};
