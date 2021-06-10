@@ -128,7 +128,7 @@ const submissionAssignmentSchema = new mongo.Schema({
     text : {
         type : String
     },
-    assignmentPDF : {
+    assignmentDocs : {
         type : [String],
         required: true
     }

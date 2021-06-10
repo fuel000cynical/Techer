@@ -154,6 +154,8 @@ io.on('connection', (socket) => {
             socket.emit('resultAdminStatus', {adminStat : data.Admin});
         })
     })
+    socket.on('getAssignments', (data) => {})
+
 })
 
 server.listen(8000);

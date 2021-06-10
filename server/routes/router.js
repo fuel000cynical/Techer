@@ -6,6 +6,7 @@ const CLASScontroller = require('../controller/CLASScontroller');
 const validator = require('./../services/validationMiddleware');
 const schema = require('../model/schema');
 const uid = require('uniqid');
+const assignmentController = require('./../controller/assignmentController');
 
 
 router.get('/login', async (req, res) => {
@@ -14,9 +15,9 @@ router.get('/login', async (req, res) => {
 
 router.get('/classes/:idType/:id', validator.valId, CLASScontroller.classMenuView);
 router.get('/classroom/:idType/:id/:classId/people', validator.valId, CLASScontroller.classRoomPeopleView);
-router.get('/classroom/:idType/:id/:classId/work', validator.valId, CLASScontroller.classRoomPeopleView);
-router.get('/classroom/:idType/:id/:classId/work/add/:type', validator.valId, CLASScontroller.classRoomPeopleView);
-router.post('/classroom/:idType/:id/:classId/work/add/:type', validator.valId, CLASScontroller.classRoomPeopleView);
+router.get('/classroom/:idType/:id/:classId/work', validator.valId, assignmentController.getAllAssignmentView);
+router.get('/classroom/:idType/:id/:classId/work/add', validator.valId, assignmentController.addAssignmentView);
+router.post('/classroom/:idType/:id/:classId/work/add', validator.valId, CLASScontroller.classRoomPeopleView);
 router.get('/classroom/:idType/:id/:classId/addPeople', validator.valId, CLASScontroller.classRoomPeopleAddView);
 
 
