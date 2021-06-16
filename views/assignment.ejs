@@ -31,7 +31,7 @@
                 <div class="card p-5">
                     <form>
                         <div class="form-group">
-                            <select class="custom-select my-1 mr-sm-2">
+                            <select class="custom-select my-1 mr-sm-2" id="selection">
                                 <option value="1" selected>Simple Note</option>
                                 <option value="2">Class Link</option>
                                 <option value="3">Class Work</option>
@@ -44,17 +44,15 @@
                             <textarea class="form-control" placeholder="Enter some description/text, leave empty if not needed" name="title" rows="10"></textarea>
                         </div>
                         <div class="form-group">
-                            <div class="input-group mb-3">
+                            <div class="input-group mb-3" id="googleMeetLink" style="display : none;">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="fa fa-google"></i></span>
                                 </div>
                                 <input type="text" class="form-control" placeholder="Meet Code" aria-label="Username" aria-describedby="basic-addon1">
                             </div>
-                            <div class="file-uploader__message-area">
-                                <p>Select a file to upload</p>
-                            </div>
-                            <div class="file-chooser">
-                                <input class="file-chooser__input" type="file" multiple>
+                            <div class="custom-file" id="fileAdd" style="display: none;">
+                                <input type="file" class="custom-file-input" id="customFile" multiple="true">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary mt-3" style="float : right">Make Assignment</button>
@@ -68,6 +66,49 @@
 <% if(instruct){ %>
     <%- include('partials/_blurredSearch.html') %>
 <% } %>
+<script>
+    function countProperties(obj) {
+        var count = 0;
+
+        for(var prop in obj) {
+            if(obj.hasOwnProperty(prop))
+                ++count;
+        }
+
+        return count;
+    }
+
+    document.querySelector('.custom-file-input').addEventListener('change',function(e){
+        var fileName = document.getElementById("customFile").files;
+        console.log(fileName);
+        var files = "";
+        for(let i = 0; i < countProperties(fileName); i++){
+            if(fileName[i+1] !== undefined){
+                files += fileName[i].name + ', ';
+            }else{
+                files += fileName[i].name;
+            }
+        }
+        console.log(files);
+        document.querySelector('.custom-file-label').innerText = files;
+    })
+
+    document.getElementById('selection').addEventListener('change', function(e){
+        let val = document.getElementById('selection').value;
+        let meetBox = document.getElementById('googleMeetLink');
+        let fileBox = document.getElementById('customFile');
+        if(val === 2){
+            fileBox.style.display = 'none';
+            meetBox.style.display = 'block';
+        }else if(val === 3){
+            fileBox.style.display = 'block';
+            meetBox.style.display = 'none';
+        }else{
+            fileBox.style.display = 'none';
+            meetBox.style.display = 'none';
+        }
+    })
+</script>
 <script src="/socket.io/socket.io.js"></script>
 <script src='/js/clientSessions.js'></script>
 <% include('partials/_footer.ejs') %> 
