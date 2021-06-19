@@ -17,7 +17,7 @@ router.get('/classes/:idType/:id', validator.valId, CLASScontroller.classMenuVie
 router.get('/classroom/:idType/:id/:classId/people', validator.valId, CLASScontroller.classRoomPeopleView);
 router.get('/classroom/:idType/:id/:classId/work', validator.valId, assignmentController.getAllAssignmentView);
 router.get('/classroom/:idType/:id/:classId/work/add', validator.valId, assignmentController.addAssignmentView);
-router.post('/classroom/:idType/:id/:classId/work/add', validator.valId, CLASScontroller.classRoomPeopleView);
+router.post('/classroom/:idType/:id/:classId/work/add');
 router.get('/classroom/:idType/:id/:classId/addPeople', validator.valId, CLASScontroller.classRoomPeopleAddView);
 
 
