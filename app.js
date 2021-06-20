@@ -17,10 +17,13 @@ const searcher = require('./server/services/search');
 const sessions = require('./server/services/sessionServices');
 
 app.use(compression({level: 9, threshold: 0}));
-app.set('view engine', 'ejs')
+app.set('view engine', 'ejs');
 app.use(parser.json({
     type : ['json', 'application/csp-report']
 }));
+app.use(parser({
+    uploadDir: path.resolve(__dirname, './upload')
+  }));
 app.use(parser.urlencoded({extended: false}));
 app.use(helmet.noSniff());
 app.use(helmet.dnsPrefetchControl({allow : false}));

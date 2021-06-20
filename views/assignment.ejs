@@ -29,7 +29,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-10">
                 <div class="card p-5 bg-dark">
-                    <form method="POST">
+                    <form method="POST" enctype="multipart/form-data">
                         <div class="form-group">
                             <select class="custom-select my-1 mr-sm-2" id="selection" name="type">
                                 <option value="1" selected>Simple Note</option>
@@ -51,7 +51,7 @@
                             </div>
                             </div>
                             <div class="custom-file" id="fileAdd" style="display: none;">
-                                <input type="file" class="custom-file-input" id="customFile" multiple="true" name="files">
+                                <input type="file" name="fileAssignment" class="custom-file-input" id="customFile" multiple/>
                                 <label class="custom-file-label" for="customFile">Choose file</label>
                             </div>
                         </div>

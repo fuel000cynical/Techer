@@ -7,7 +7,19 @@ const validator = require('./../services/validationMiddleware');
 const schema = require('../model/schema');
 const uid = require('uniqid');
 const assignmentController = require('./../controller/assignmentController');
-
+var multer  = require('multer')
+const path = require('path');
+var maxSize = 16 * 1000 * 1000 * 1000;
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, path.resolve(__dirname, './upload'))
+    },
+    filename: function (req, file, cb) {
+        cb(null, uid() + '.' +file.mimetype.split("/")[1]) //Appending .jpg
+    }
+  })
+  
+var upload = multer({ storage: storage , limits: { fileSize: maxSize }});
 
 router.get('/login', async (req, res) => {
     res.render('login');
@@ -17,7 +29,9 @@ router.get('/classes/:idType/:id', validator.valId, CLASScontroller.classMenuVie
 router.get('/classroom/:idType/:id/:classId/people', validator.valId, CLASScontroller.classRoomPeopleView);
 router.get('/classroom/:idType/:id/:classId/work', validator.valId, assignmentController.getAllAssignmentView);
 router.get('/classroom/:idType/:id/:classId/work/add', validator.valId, assignmentController.addAssignmentView);
-router.post('/classroom/:idType/:id/:classId/work/add');
+router.post('/classroom/:idType/:id/:classId/work/add', upload.array('fileAssignment'), (req, res, next) => {
+    res.send(req.body);
+});
 router.get('/classroom/:idType/:id/:classId/addPeople', validator.valId, CLASScontroller.classRoomPeopleAddView);
 
 
