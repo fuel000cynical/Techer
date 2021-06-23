@@ -116,10 +116,6 @@ const sessionSchema = new mongo.Schema({
 let sessionModel = mongo.model('sessionstores', sessionSchema);
 
 const assignmentSchema = new mongo.Schema({
-    type : {
-        required : true,
-        type : String
-    },
     title : {
         required : true,
         type : String
@@ -131,6 +127,6 @@ const assignmentSchema = new mongo.Schema({
     },fileIds : [String]
 });
 
-let assignmentModel = mongo.model('assignmentDB', assignmentSchema);
+let assignmentModel = mongo.model('assignmentNotes', assignmentSchema);
 
 module.exports = {sessionModel, student, teacher, techerClass, assignmentModel};
