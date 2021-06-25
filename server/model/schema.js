@@ -119,12 +119,12 @@ const assignmentSchema = new mongo.Schema({
     title : {
         required : true,
         type : String
-    },text : {
+    },note : {
         required : true,
         type : String
-    },meet : {
+    },meetCode : {
         type : String
-    },fileIds : [String]
+    },fileData : [String]
 });
 
 let assignmentModel = mongo.model('assignmentNotes', assignmentSchema);
