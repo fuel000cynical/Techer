@@ -157,7 +157,14 @@ io.on('connection', (socket) => {
             socket.emit('resultAdminStatus', {adminStat : data.Admin});
         })
     })
-    socket.on('getAssignments', (data) => {})
+    socket.on('getAssignments', (data) => {
+        console.log(data.classId);
+        schema.assignmentModel.find({class : data.classId}).then(assignments => {
+            socket.emit('getAssignmentsAnswer', assignments);
+        }).catch(err => {
+            console.log(err);
+        })
+    })
 
 })
 

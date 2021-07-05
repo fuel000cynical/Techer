@@ -58,6 +58,8 @@
         </div>
     </div>
 </div>
+<script src="/socket.io/socket.io.js"></script>
+<script src='/js/clientSessions.js'></script>
 <% if(instruct){ %>
     <%- include('partials/_blurredSearch.html') %>
 <% } %>
@@ -88,6 +90,4 @@
         document.querySelector('.custom-file-label').innerText = files;
     })
 </script>
-<script src="/socket.io/socket.io.js"></script>
-<script src='/js/clientSessions.js'></script>
 <% include('partials/_footer.ejs') %> 

@@ -31,12 +31,9 @@ exports.addAssignmentView = (req, res) => {
     }
 };
 
-exports.addAssignment = (req, res) => {
-
-}
-
 exports.addAssignmentPost = (req, res) => {
     req.body.fileData = req.fileName;
+    req.body.class = req.params.classId;
     const data = new schema.assignmentModel(req.body);
     data.save();
     res.redirect(`/classroom/${req.params.idType}/${req.params.id}/${req.params.classId}/work`);
