@@ -15,14 +15,16 @@ var storage = multer.diskStorage({
       cb(null, path.resolve(__dirname, './upload'))
     },
     filename: function (req, file, cb) {
-        let filenameSet = uid();
+        let fileBack = '.' + file.mimetype.split("/")[1];
+        let filenameSet = file.originalname + fileBack;
         req.fileName.push(filenameSet);
-        cb(null, filenameSet + '.' +file.mimetype.split("/")[1]) //Appending .jpg
+        cb(null, filenameSet)
 }})
   
 var upload = multer({ storage: storage , limits: { fileSize: maxSize }});
+router.all('/', (req, res) => {res.redirect('/login')});
 
-router.get('/login', async (req, res) => {
+router.get('/login',(req, res) => {
     res.render('login');
 });
 
@@ -31,6 +33,7 @@ router.get('/classroom/:idType/:id/:classId/people', validator.valId, CLASScontr
 router.get('/classroom/:idType/:id/:classId/work', validator.valId, assignmentController.getAllAssignmentView);
 router.get('/classroom/:idType/:id/:classId/work/add', validator.valId, assignmentController.addAssignmentView);
 router.post('/classroom/:idType/:id/:classId/work/add', validator.valId, (req, res, next) => {req.fileName = []; next()}, upload.array('fileAssignment'), assignmentController.addAssignmentPost);
+router.get('/classroom/:idType/:id/:classId/uploads', validator.valId)
 router.get('/classroom/:idType/:id/:classId/addPeople', validator.valId, CLASScontroller.classRoomPeopleAddView);
 
 

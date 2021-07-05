@@ -34,6 +34,7 @@ app.use(helmet.ieNoOpen());
 app.use(helmet.referrerPolicy({policy : 'same-origin'}));
 app.use(helmet.xssFilter());
 app.use(express.static(path.resolve(__dirname, './public')));
+app.use('/classroom/:idType/:id/:classId/uploads', express.static(path.resolve(__dirname, './server/routes/upload')));
 
 connection();
 
@@ -158,7 +159,6 @@ io.on('connection', (socket) => {
         })
     })
     socket.on('getAssignments', (data) => {
-        console.log(data.classId);
         schema.assignmentModel.find({class : data.classId}).then(assignments => {
             socket.emit('getAssignmentsAnswer', assignments);
         }).catch(err => {

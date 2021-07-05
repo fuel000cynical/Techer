@@ -48,6 +48,7 @@
         if(data[0] === undefined){
             showBox.innerHTML = "<div class='text-center'>no assignments to show</div>";
         }else{
+            data = data.reverse();
             data.forEach(a => {
                 let row = document.createElement('div');
                 row.classList.add("row");
@@ -72,8 +73,30 @@
                     let meetTag = document.createElement('p');
                     meetTag.classList.add('btn');
                     meetTag.classList.add('btn-success');
-                    meetTag.innerHTML = `The meet code provided is ${a.meetCode} <span class="badge badge-light">4</span>`
+                    meetTag.innerHTML = `The <i class="fa fa-google"></i> meet code provided is ${a.meetCode}`
                     cardBody.appendChild(meetTag);
+                }
+                if(a.fileData){
+                    let announceTag = document.createElement('h4');
+                    announceTag.classList.add('text-muted');
+                    announceTag.innerText = 'Attachments';
+                    cardBody.appendChild(announceTag);
+                    let flexCards = document.createElement('div');
+                    flexCards.classList.add('d-flex');
+                    flexCards.classList.add('align-content-start');
+                    flexCards.classList.add('flex-wrap');
+                    a.fileData.forEach(file => {
+                        let attachementTag = document.createElement('div');
+                        attachementTag.classList.add('card');
+                        attachementTag.classList.add('text-white');
+                        attachementTag.classList.add('bg-secondary'); 
+                        attachementTag.classList.add('mb-3');
+                        attachementTag.classList.add('mr-3');
+                        attachementTag.style.maxWidth = '18rem';
+                        attachementTag.innerHTML = `<div class="card-body"><h5 class="card-title">${file}</h5><a href="/classroom/${userType}/${userId}/${classId}/uploads/${file}" class="btn btn-primary">Open</a></div>`
+                        flexCards.appendChild(attachementTag);
+                    })
+                    cardBody.appendChild(flexCards);
                 }
                 column.appendChild(cardBody);
                 row.appendChild(column);
