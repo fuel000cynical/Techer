@@ -85,5 +85,5 @@ HTML | 45 | 45
 CSS | 6 + 71 + 72 + 34 + 34 + 106 | 323
 MarkDown | 88 | 88
 Grand Total | 785 + 1178 + 435 + 45 + 323 + 88 | 2854
-x
+
 *This table excludes the module/auto generated code*
