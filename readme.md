@@ -45,7 +45,9 @@ __Genral Guidlines__
 4. Title is needed in every assignments
 
 
-## Dependencies
+## Aditional Data
+
+### Dependencies
 * compression
 * ejs
 * express
@@ -56,8 +58,6 @@ __Genral Guidlines__
 * socket.io
 * uniqid
 
-
-## Aditional Data
 *This table excludes the module/auto generated code*
 Language | Lines Of Code | Total
 -------- | ------------- | -----
