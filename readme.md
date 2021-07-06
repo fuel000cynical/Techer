@@ -4,6 +4,10 @@
 ### This is a simple platform using google classroom's idea for manageing classes
 *This a practice Website.*
 
+### Technology Used
+This website is using ejs, html, css, bootstrap, font-awsome and js to display a good looking frontend which can be dinamicaly changed.
+The backend uses node.js with express for easy set up, mongoose for connection with mongoDB database, multer for easy file uploading, nodemailer for emailing, socket.io for real time communication between backend and frontend, helmet for security, uniquid for unique code generation and compression for making the website faster. 
+
 ### Info About The Website
 
 __Acount Types__
