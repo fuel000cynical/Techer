@@ -44,6 +44,22 @@ __Genral Guidlines__
 3. Assignments can not be edited or deleted
 4. Title is needed in every assignments
 
+## Setup
+1. Download Code
+2. Run command npm install
+3. Make ```techer``` folder in mongoDB with collection ```teachers```
+4. Add an admin account in the collection, use the syntax :
+```JSON
+{
+    Admin : true,
+    t_Id : "8g086bdkkpjtwyb9",
+    Name : // enter admin name,
+    Email : "info@coderunner.in",
+    Username : // enter admin username,
+    Password : // enter admin password
+}
+```
+5. Run command npm start
 
 ## Aditional Data
 
@@ -58,7 +74,8 @@ __Genral Guidlines__
 * socket.io
 * uniqid
 
-*This table excludes the module/auto generated code*
+
+
 Language | Lines Of Code | Total
 -------- | ------------- | -----
 EJS | 120 + 18 + 50 + 20 + 108 + 84 + 76 + 95 + 112 + 31 + 48 + 21 + 2 | 785
@@ -68,3 +85,4 @@ HTML | 45 | 45
 CSS | 6 + 71 + 72 + 34 + 34 + 106 | 323
 MarkDown | 68 | 68
 Grand Total | 785 + 1178 + 435 + 45 + 323 + 68 | 2834
+*This table excludes the module/auto generated code*
