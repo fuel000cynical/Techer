@@ -26,19 +26,21 @@ socket.on('searchResult', (query) => {
 })
 
 function focusSearch() {
-    document.getElementById('nonFocusSearch').style.visibility = 'hidden';
-    document.getElementById('nonFocusSearch').style.opacity = 0;
     document.getElementById('nonBlurSearch').style.visibility = '';
     document.getElementById('nonBlurSearch').style.opacity = 100;
-    document.getElementById('body').style['overflow-y'] = "scroll";
+    document.getElementById('nonBlurSearch').style.height = '100%';
+    document.getElementById('nonFocusSearch').style.visibility = 'hidden';
+    document.getElementById('nonFocusSearch').style.opacity = 0;
+    document.getElementById('nonFocusSearch').style.height = 0;
 }
 
 function blurSearch() {
-    document.getElementById('nonFocusSearch').style.visibility = '';
-    document.getElementById('nonFocusSearch').style.opacity = 100;
     document.getElementById('nonBlurSearch').style.visibility = 'hidden';
     document.getElementById('nonBlurSearch').style.opacity = 0;
-    document.getElementById('body').style['overflow-y'] = "hidden";
+    document.getElementById('nonBlurSearch').style.height = 0;
+    document.getElementById('nonFocusSearch').style.visibility = '';
+    document.getElementById('nonFocusSearch').style.opacity = 100;
+    document.getElementById('nonFocusSearch').style.height = '100%';
 }
 
 function addSearchElements(elementData) {
