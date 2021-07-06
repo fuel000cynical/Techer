@@ -83,6 +83,6 @@ Backend JavaScript | 171 + 75 + 59 + 27 + 154 + 60 + 135 + 11 + 173 + 65 + 208 +
 Frontend JavaScript |  5 + 123 + 128 + 49 + 21 + 109 | 435
 HTML | 45 | 45
 CSS | 6 + 71 + 72 + 34 + 34 + 106 | 323
-MarkDown | 68 | 68
-Grand Total | 785 + 1178 + 435 + 45 + 323 + 68 | 2834
+MarkDown | 88 | 88
+Grand Total | 785 + 1178 + 435 + 45 + 323 + 88 | 2854
 *This table excludes the module/auto generated code*
