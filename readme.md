@@ -55,3 +55,15 @@ __Genral Guidlines__
 * nodemailer
 * socket.io
 * uniqid
+
+
+## Aditional Data
+*This table excludes the module/auto generated code*
+Language | Lines Of Code
+-------- | -------------
+EJS | 120 + 18 + 50 + 20 + 108 + 84 + 76 + 95 + 112 + 31 + 48 + 21 + 2
+Backend JavaScript | 171 + 75 + 59 + 27 + 154 + 60 + 135 + 11 + 173 + 65 + 208 + 40
+Frontend JavaScript |  5 + 123 + 128 + 49 + 21 + 109
+HTML | 45
+CSS | 6 + 71 + 72 + 34 + 34 + 106
+MarkDown | 68
