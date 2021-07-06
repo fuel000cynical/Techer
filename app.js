@@ -14,7 +14,6 @@ const path = require('path');
 const schema = require('./server/model/schema');
 const uid = require('uniqid');
 const searcher = require('./server/services/search');
-const sessions = require('./server/services/sessionServices');
 
 app.use(compression({level: 9, threshold: 0}));
 app.set('view engine', 'ejs');
