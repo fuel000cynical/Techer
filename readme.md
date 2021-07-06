@@ -39,3 +39,15 @@ __Genral Guidlines__
 2. On the creation of a student account, an email with the students account details will be spent to the provided email address.
 3. Assignments can not be edited or deleted
 4. Title is needed in every assignments
+
+
+## Dependencies
+* compression
+* ejs
+* express
+* helmet
+* mongoose
+* multer
+* nodemailer
+* socket.io
+* uniqid
