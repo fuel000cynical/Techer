@@ -49,7 +49,7 @@ __Genral Guidlines__
 2. Run command npm install
 3. Make ```techer``` folder in mongoDB with collection ```teachers```
 4. Add an admin account in the collection, use the syntax :
-```JSON
+```
 {
     Admin : true,
     t_Id : "8g086bdkkpjtwyb9",
